@@ -116,3 +116,12 @@ The frontend now includes guided trace playback using backend-returned step data
 - autoplay
 - playback speed selection
 - focused tape viewer with highlighted head positions
+
+## Phase 4 UX Polish
+
+The simulator UI now includes:
+
+- an operation explanation panel
+- a quick guide for tape, register, and playback concepts
+- clearer helper text around form inputs and playback controls
+- improved presentation-oriented labels and section hierarchy

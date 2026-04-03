@@ -128,7 +128,7 @@ export default function TracePlayer({
             onClick={togglePlayback}
             type="button"
           >
-            {isPlaying ? "Pause" : "Autoplay"}
+            {isPlaying ? "Pause Playback" : "Start Autoplay"}
           </button>
           <button
             className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-ocean hover:text-ocean"
@@ -145,7 +145,7 @@ export default function TracePlayer({
             Last
           </button>
           <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
-            <span>Speed</span>
+            <span>Playback speed</span>
             <select
               className="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-ocean"
               value={speed}
@@ -207,6 +207,10 @@ export default function TracePlayer({
               Active heads highlighted
             </span>
           </div>
+          <p className="text-sm leading-6 text-slate-700">
+            The dark highlighted cell marks the current head position. Tapes involved in
+            the current transition are emphasized with a lighter blue background.
+          </p>
 
           <div className="grid gap-4">
             {currentStep.tapes.map((tape, tapeIndex) => {

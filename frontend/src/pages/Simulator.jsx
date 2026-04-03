@@ -4,6 +4,8 @@ import SimulationForm from "../components/simulator/SimulationForm";
 import SimulationSummary from "../components/simulator/SimulationSummary";
 import ExecutionTrace from "../components/simulator/ExecutionTrace";
 import TracePlayer from "../components/simulator/TracePlayer";
+import OperationGuide from "../components/simulator/OperationGuide";
+import SimulatorLegend from "../components/simulator/SimulatorLegend";
 import { runSimulation } from "../lib/api";
 
 export default function Simulator({ operations }) {
@@ -11,6 +13,7 @@ export default function Simulator({ operations }) {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedStepIndex, setFocusedStepIndex] = useState(0);
+  const [selectedOperation, setSelectedOperation] = useState("INC");
 
   async function handleSimulationSubmit(payload) {
     setIsSubmitting(true);
@@ -35,12 +38,14 @@ export default function Simulator({ operations }) {
           Select an operation, set the registers, and send the request to the
           FastAPI backend.
         </p>
-        <div className="mt-6">
+        <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
           <SimulationForm
             operations={operations}
             isSubmitting={isSubmitting}
             onSubmit={handleSimulationSubmit}
+            onOperationChange={setSelectedOperation}
           />
+          <OperationGuide operationCode={selectedOperation} />
         </div>
         {error ? (
           <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
@@ -48,6 +53,8 @@ export default function Simulator({ operations }) {
           </p>
         ) : null}
       </section>
+
+      <SimulatorLegend />
 
       <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
         <h2 className="text-2xl font-bold text-ink">Simulation Summary</h2>

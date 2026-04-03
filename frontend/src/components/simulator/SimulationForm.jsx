@@ -23,7 +23,12 @@ function getParameterConfig(operationCode) {
   }
 }
 
-export default function SimulationForm({ operations, isSubmitting, onSubmit }) {
+export default function SimulationForm({
+  operations,
+  isSubmitting,
+  onSubmit,
+  onOperationChange,
+}) {
   const defaultOperation = operations[0]?.code ?? "INC";
   const [operation, setOperation] = useState(defaultOperation);
   const [registerValues, setRegisterValues] = useState(() =>
@@ -44,6 +49,10 @@ export default function SimulationForm({ operations, isSubmitting, onSubmit }) {
       setOperation(operations[0].code);
     }
   }, [operation, operations]);
+
+  useEffect(() => {
+    onOperationChange?.(operation);
+  }, [onOperationChange, operation]);
 
   function handleRegisterChange(index, value) {
     setRegisterValues((current) => {
@@ -98,8 +107,19 @@ export default function SimulationForm({ operations, isSubmitting, onSubmit }) {
   const inputClassName =
     "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition duration-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20";
 
+  const helperText =
+    operation === "CMP"
+      ? "Choose the two registers you want to compare for equality."
+      : operation === "CPY"
+        ? "Choose the destination register and the source register to copy from."
+        : "Choose the target register for the selected operation.";
+
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>
+      <div className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+        {helperText}
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2">
           <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
