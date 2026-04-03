@@ -70,3 +70,26 @@ The backend runner prefers `backend\.venv\Scripts\python.exe` if it exists, and 
 - Verify FastAPI can load `CounterMachineTM` from `simulator.py`
 - Provide a starter React UI that reads backend data
 - Prepare the repo for Phase 1 simulation endpoints
+
+## Phase 1 Backend API
+
+Available endpoints:
+
+- `GET /api/health`
+- `GET /api/operations`
+- `GET /api/project-info`
+- `POST /api/simulations`
+
+Example simulation request:
+
+```json
+{
+  "operation": "INC",
+  "register_values": [3, 0, 0, 0, 0],
+  "parameters": {
+    "target": 0
+  },
+  "num_registers": 5,
+  "include_steps": true
+}
+```

@@ -18,9 +18,9 @@ def load_simulator_module() -> ModuleType:
     return module
 
 
-def get_operation_catalog() -> list[str]:
-    # Keep the initial API explicit and stable even if the Python file changes.
-    return ["INC", "DEC", "CZ", "CMP", "CLR", "CPY"]
+def get_operation_catalog() -> list[dict]:
+    module = load_simulator_module()
+    return module.get_operation_catalog()
 
 
 def get_machine_class_name() -> str:
@@ -29,4 +29,15 @@ def get_machine_class_name() -> str:
     if machine_class is None:
         raise RuntimeError("CounterMachineTM class was not found in simulator.py")
     return machine_class.__name__
+
+
+def run_simulation(operation: str, register_values: list[int], parameters: dict, num_registers: int) -> dict:
+    module = load_simulator_module()
+    result = module.run_simulation(
+        operation=operation,
+        register_values=register_values,
+        parameters=parameters,
+        num_registers=num_registers,
+    )
+    return result.to_dict()
 

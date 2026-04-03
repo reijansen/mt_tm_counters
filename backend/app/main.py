@@ -1,8 +1,16 @@
 from fastapi import FastAPI
+from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import FRONTEND_ORIGIN
-from app.schemas import HealthResponse, OperationCatalogResponse, ProjectInfoResponse
+from app.schemas import (
+    HealthResponse,
+    OperationCatalogResponse,
+    ProjectInfoResponse,
+    SimulationRequest,
+    SimulationResponse,
+)
+from app.services.simulation_service import execute_simulation
 from app.services.simulator_adapter import get_machine_class_name, get_operation_catalog
 
 
@@ -47,3 +55,10 @@ def project_info() -> ProjectInfoResponse:
         university="University of the Philippines Visayas",
     )
 
+
+@app.post("/api/simulations", response_model=SimulationResponse)
+def run_simulation_endpoint(request: SimulationRequest) -> SimulationResponse:
+    try:
+        return SimulationResponse(**execute_simulation(request))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
