@@ -3,7 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "setup": "npm run setup:frontend && npm run setup:backend",
     "dev": "concurrently -k -n backend,frontend -c blue,yellow \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "setup:frontend": "npm --prefix frontend install",
+    "setup:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/setup-backend.ps1",
     "dev:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/run-backend.ps1",
     "dev:frontend": "npm --prefix frontend run dev"
   },
@@ -11,4 +14,3 @@
     "concurrently": "^9.1.2"
   }
 }
-

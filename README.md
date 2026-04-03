@@ -7,7 +7,7 @@ Phase 0 scaffolding for a web app version of the multitape Turing machine counte
 - Backend: FastAPI
 - Frontend: React
 - Tooling: Vite
-- Animated UI library: `@appletosolutions/reactbits`
+- Styling and animation: Tailwind CSS
 
 ## Project Structure
 
@@ -46,14 +46,13 @@ npm run dev
 
 Frontend runs at `http://localhost:5173`.
 
-This frontend now expects the `@appletosolutions/reactbits` package during install.
-
 ### Run Both Services Together
 
 From the repo root:
 
 ```powershell
 npm install
+npm run setup
 npm run dev
 ```
 
@@ -63,6 +62,7 @@ This uses `concurrently` to run:
 - Vite from `frontend`
 
 The backend runner prefers `backend\.venv\Scripts\python.exe` if it exists, and falls back to `python` otherwise.
+The setup command installs frontend dependencies and creates or updates the backend virtual environment with `requirements.txt`.
 
 ## Phase 0 Goal
 
@@ -93,3 +93,15 @@ Example simulation request:
   "include_steps": true
 }
 ```
+
+## Phase 2 Frontend
+
+Frontend structure:
+
+- `src/pages/HomePage.jsx`
+- `src/pages/Simulator.jsx`
+- `src/components/simulator/SimulationForm.jsx`
+- `src/components/simulator/SimulationSummary.jsx`
+- `src/components/simulator/ExecutionTrace.jsx`
+
+The simulator form fetches available operations from the backend and submits runs to `POST /api/simulations`.

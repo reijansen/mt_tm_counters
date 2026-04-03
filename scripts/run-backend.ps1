@@ -13,7 +13,9 @@ if (Test-Path $venvPython) {
 Push-Location $backendPath
 try {
     & $pythonCmd -m uvicorn app.main:app --reload
+    if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+    }
 } finally {
     Pop-Location
 }
-

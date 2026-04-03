@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from functools import lru_cache
 from types import ModuleType
 
@@ -14,6 +15,7 @@ def load_simulator_module() -> ModuleType:
         raise RuntimeError(f"Unable to load simulator module from {SIMULATOR_PATH}")
 
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -40,4 +42,3 @@ def run_simulation(operation: str, register_values: list[int], parameters: dict,
         num_registers=num_registers,
     )
     return result.to_dict()
-
