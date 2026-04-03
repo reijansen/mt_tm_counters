@@ -7,6 +7,7 @@ Phase 0 scaffolding for a web app version of the multitape Turing machine counte
 - Backend: FastAPI
 - Frontend: React
 - Tooling: Vite
+- Animated UI library: `@appletosolutions/reactbits`
 
 ## Project Structure
 
@@ -44,6 +45,8 @@ npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`.
+
+This frontend now expects the `@appletosolutions/reactbits` package during install.
 
 ## Phase 0 Goal
 
