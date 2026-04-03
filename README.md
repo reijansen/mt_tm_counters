@@ -48,6 +48,22 @@ Frontend runs at `http://localhost:5173`.
 
 This frontend now expects the `@appletosolutions/reactbits` package during install.
 
+### Run Both Services Together
+
+From the repo root:
+
+```powershell
+npm install
+npm run dev
+```
+
+This uses `concurrently` to run:
+
+- FastAPI from `backend`
+- Vite from `frontend`
+
+The backend runner prefers `backend\.venv\Scripts\python.exe` if it exists, and falls back to `python` otherwise.
+
 ## Phase 0 Goal
 
 - Establish the backend/frontend split

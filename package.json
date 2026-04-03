@@ -1,0 +1,14 @@
+{
+  "name": "mt-tm-counters",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "concurrently -k -n backend,frontend -c blue,yellow \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/run-backend.ps1",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
+
