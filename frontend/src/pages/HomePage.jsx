@@ -31,10 +31,10 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="grid gap-6">
       <header className="mb-8 rounded-[2rem] border border-white/60 bg-white/70 p-8 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-ocean">
-          Phase 2 Frontend
+          Simulator Workspace
         </p>
         <h1 className="max-w-4xl text-4xl font-black tracking-tight text-ink sm:text-5xl lg:text-6xl">
           Multitape Turing Machine Counter Simulator
@@ -73,36 +73,6 @@ export default function HomePage() {
         </div>
 
         <Simulator operations={operations} />
-
-        <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
-          <h2 className="text-2xl font-bold text-ink">About The Project</h2>
-          {projectInfo ? (
-            <div className="mt-4 grid gap-3 text-slate-700">
-              <p>
-                <strong className="text-ink">Developer:</strong> {projectInfo.developer}
-              </p>
-              <p>
-                <strong className="text-ink">Course:</strong> {projectInfo.course}
-              </p>
-              <p>
-                <strong className="text-ink">Program:</strong> {projectInfo.program}
-              </p>
-              <p>
-                <strong className="text-ink">Division:</strong> {projectInfo.division}
-              </p>
-              <p>
-                <strong className="text-ink">College:</strong> {projectInfo.college}
-              </p>
-              <p>
-                <strong className="text-ink">University:</strong> {projectInfo.university}
-              </p>
-            </div>
-          ) : (
-            <p className="mt-4 text-slate-700">
-              Project metadata will appear here once the backend responds.
-            </p>
-          )}
-        </section>
       </main>
     </div>
   );

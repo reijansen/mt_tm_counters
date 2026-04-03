@@ -125,3 +125,11 @@ The simulator UI now includes:
 - a quick guide for tape, register, and playback concepts
 - clearer helper text around form inputs and playback controls
 - improved presentation-oriented labels and section hierarchy
+
+## Phase 5 About Page
+
+The frontend now includes:
+
+- dedicated About page at `/about`
+- shared top navigation for simulator and about views
+- academic project summary, purpose, educational value, and scope-and-limitations sections
