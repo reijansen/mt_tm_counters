@@ -1,18 +1,4 @@
-const limitationItems = [
-  "The simulator supports only fixed built-in operations: INC, DEC, CZ, CMP, CLR, and CPY.",
-  "It is not a general-purpose Turing machine editor or arbitrary state-machine authoring tool.",
-  "It uses binary tape encoding to represent register values.",
-  "It is designed for instructional and demonstrative use rather than unrestricted machine construction.",
-];
-
-const academicItems = [
-  { label: "Developer", value: "Rei Jansen Buerom" },
-  { label: "Course", value: "CMSC 141 - Automata and Language Theory" },
-  { label: "Program", value: "Bachelor of Science in Computer Science" },
-  { label: "Division", value: "Division of Physical Sciences and Mathematics" },
-  { label: "College", value: "College of Arts and Sciences" },
-  { label: "University", value: "University of the Philippines Visayas" },
-];
+import { ACADEMIC_ITEMS, LIMITATION_ITEMS } from "../lib/projectData";
 
 function InfoCard({ title, children }) {
   return (
@@ -52,7 +38,7 @@ export default function AboutPage() {
 
         <InfoCard title="Academic Context">
           <div className="grid gap-3">
-            {academicItems.map((item) => (
+            {ACADEMIC_ITEMS.map((item) => (
               <p key={item.label}>
                 <strong className="text-ink">{item.label}:</strong> {item.value}
               </p>
@@ -83,7 +69,7 @@ export default function AboutPage() {
 
       <InfoCard title="Scope And Limitations">
         <ul className="grid gap-3">
-          {limitationItems.map((item) => (
+          {LIMITATION_ITEMS.map((item) => (
             <li
               className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
               key={item}

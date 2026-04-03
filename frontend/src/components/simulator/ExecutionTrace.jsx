@@ -9,14 +9,14 @@ export default function ExecutionTrace({ steps, currentStepIndex = -1, onSelectS
 
   return (
     <div className="grid gap-4">
-      {steps.map((step) => (
+      {steps.map((step, index) => (
         <article
           className={`grid gap-4 rounded-3xl border p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-md ${
             currentStepIndex === step.step_number - 1
               ? "border-ocean bg-sky-50 ring-2 ring-ocean/20"
               : "border-slate-200 bg-slate-50"
           }`}
-          key={`step-${step.step_number}-${step.state}`}
+          key={`step-${index}-${step.step_number}-${step.state}`}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <strong>Step {step.step_number}</strong>

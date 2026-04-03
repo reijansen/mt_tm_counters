@@ -133,3 +133,21 @@ The frontend now includes:
 - dedicated About page at `/about`
 - shared top navigation for simulator and about views
 - academic project summary, purpose, educational value, and scope-and-limitations sections
+
+## Phase 6 Demo Features
+
+The simulator now includes preset educational demos that can be loaded into the form in one click.
+
+- recommended demo cards for all supported operations
+- preset rejected and accepted scenarios
+- example explanations for presentation and teaching use
+
+## Frontend Structure
+
+The frontend is now organized into focused pages so the simulator workspace stays less crowded.
+
+- `/` Home landing page
+- `/simulator` execution workspace
+- `/examples` preset demo gallery
+- `/guide` reading guide for the simulator output
+- `/about` academic project page

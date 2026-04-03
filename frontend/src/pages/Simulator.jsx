@@ -5,10 +5,9 @@ import SimulationSummary from "../components/simulator/SimulationSummary";
 import ExecutionTrace from "../components/simulator/ExecutionTrace";
 import TracePlayer from "../components/simulator/TracePlayer";
 import OperationGuide from "../components/simulator/OperationGuide";
-import SimulatorLegend from "../components/simulator/SimulatorLegend";
 import { runSimulation } from "../lib/api";
 
-export default function Simulator({ operations }) {
+export default function Simulator({ initialExample, operations }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,6 +39,7 @@ export default function Simulator({ operations }) {
         </p>
         <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
           <SimulationForm
+            initialValues={initialExample}
             operations={operations}
             isSubmitting={isSubmitting}
             onSubmit={handleSimulationSubmit}
@@ -53,8 +53,6 @@ export default function Simulator({ operations }) {
           </p>
         ) : null}
       </section>
-
-      <SimulatorLegend />
 
       <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
         <h2 className="text-2xl font-bold text-ink">Simulation Summary</h2>

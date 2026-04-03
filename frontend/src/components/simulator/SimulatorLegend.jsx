@@ -1,30 +1,4 @@
-const LEGEND_ITEMS = [
-  {
-    title: "Binary Tape Representation",
-    description:
-      "Each register is encoded as binary digits on tape. Blank cells are shown as B and represent empty tape space.",
-  },
-  {
-    title: "Register Values",
-    description:
-      "Registers show the decimal interpretation of the binary tape contents at the selected step or at the end of execution.",
-  },
-  {
-    title: "Accepted vs Rejected",
-    description:
-      "Accepted means the machine halted in a valid accept state for the chosen operation. Rejected means the operation condition failed.",
-  },
-  {
-    title: "Head Positions",
-    description:
-      "The highlighted tape cell is the current head location. Active tapes are visually emphasized during playback.",
-  },
-  {
-    title: "Trace Playback",
-    description:
-      "Playback reuses the full trace returned by the backend. It does not request step-by-step execution from the server.",
-  },
-];
+import { GUIDE_ITEMS } from "../../lib/projectData";
 
 export default function SimulatorLegend() {
   return (
@@ -37,7 +11,7 @@ export default function SimulatorLegend() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {LEGEND_ITEMS.map((item) => (
+        {GUIDE_ITEMS.map((item) => (
           <article
             className="rounded-2xl border border-slate-200 bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:shadow-md"
             key={item.title}

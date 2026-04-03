@@ -28,6 +28,7 @@ export default function SimulationForm({
   isSubmitting,
   onSubmit,
   onOperationChange,
+  initialValues,
 }) {
   const defaultOperation = operations[0]?.code ?? "INC";
   const [operation, setOperation] = useState(defaultOperation);
@@ -53,6 +54,29 @@ export default function SimulationForm({
   useEffect(() => {
     onOperationChange?.(operation);
   }, [onOperationChange, operation]);
+
+  useEffect(() => {
+    if (!initialValues) {
+      return;
+    }
+
+    setOperation(initialValues.operation ?? "INC");
+    setNumRegisters(initialValues.num_registers ?? DEFAULT_REGISTER_COUNT);
+    setIncludeSteps(initialValues.include_steps ?? true);
+    setRegisterValues(() => {
+      const count = initialValues.num_registers ?? DEFAULT_REGISTER_COUNT;
+      const resized = buildEmptyRegisterValues(count);
+      const values = initialValues.register_values ?? [];
+      for (let index = 0; index < Math.min(values.length, count); index += 1) {
+        resized[index] = String(values[index]);
+      }
+      return resized;
+    });
+    setParameters((current) => ({
+      ...current,
+      ...initialValues.parameters,
+    }));
+  }, [initialValues]);
 
   function handleRegisterChange(index, value) {
     setRegisterValues((current) => {

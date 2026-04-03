@@ -31,7 +31,10 @@ export default function AppLayout({ children }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <NavItem to="/">Simulator</NavItem>
+          <NavItem to="/">Home</NavItem>
+          <NavItem to="/simulator">Simulator</NavItem>
+          <NavItem to="/examples">Examples</NavItem>
+          <NavItem to="/guide">Guide</NavItem>
           <NavItem to="/about">About</NavItem>
         </div>
       </nav>
@@ -40,4 +43,3 @@ export default function AppLayout({ children }) {
     </div>
   );
 }
-
