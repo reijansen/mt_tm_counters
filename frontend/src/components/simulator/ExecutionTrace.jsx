@@ -1,4 +1,4 @@
-export default function ExecutionTrace({ steps }) {
+export default function ExecutionTrace({ steps, currentStepIndex = -1, onSelectStep }) {
   if (!steps?.length) {
     return (
       <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-5 text-slate-700">
@@ -11,14 +11,29 @@ export default function ExecutionTrace({ steps }) {
     <div className="grid gap-4">
       {steps.map((step) => (
         <article
-          className="grid gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-md"
+          className={`grid gap-4 rounded-3xl border p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+            currentStepIndex === step.step_number - 1
+              ? "border-ocean bg-sky-50 ring-2 ring-ocean/20"
+              : "border-slate-200 bg-slate-50"
+          }`}
           key={`step-${step.step_number}-${step.state}`}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <strong>Step {step.step_number}</strong>
-            <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-slate-700 shadow-sm">
-              {step.state}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              {typeof onSelectStep === "function" ? (
+                <button
+                  className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-700 transition hover:border-ocean hover:text-ocean"
+                  onClick={() => onSelectStep(step.step_number - 1)}
+                  type="button"
+                >
+                  Focus
+                </button>
+              ) : null}
+              <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-slate-700 shadow-sm">
+                {step.state}
+              </span>
+            </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">

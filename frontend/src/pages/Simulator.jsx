@@ -3,12 +3,14 @@ import { useState } from "react";
 import SimulationForm from "../components/simulator/SimulationForm";
 import SimulationSummary from "../components/simulator/SimulationSummary";
 import ExecutionTrace from "../components/simulator/ExecutionTrace";
+import TracePlayer from "../components/simulator/TracePlayer";
 import { runSimulation } from "../lib/api";
 
 export default function Simulator({ operations }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [focusedStepIndex, setFocusedStepIndex] = useState(0);
 
   async function handleSimulationSubmit(payload) {
     setIsSubmitting(true);
@@ -16,6 +18,7 @@ export default function Simulator({ operations }) {
     try {
       const response = await runSimulation(payload);
       setResult(response);
+      setFocusedStepIndex(0);
     } catch (submissionError) {
       setResult(null);
       setError(submissionError.message);
@@ -54,9 +57,32 @@ export default function Simulator({ operations }) {
       </section>
 
       <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
-        <h2 className="text-2xl font-bold text-ink">Execution Trace</h2>
+        <h2 className="text-2xl font-bold text-ink">Step Playback</h2>
+        <p className="mt-2 text-slate-700">
+          Navigate the returned trace step by step. Playback is driven entirely by
+          backend-returned snapshots, without a live backend stepping session.
+        </p>
         <div className="mt-6">
-          <ExecutionTrace steps={result?.steps} />
+          <TracePlayer
+            currentStepIndex={focusedStepIndex}
+            onStepChange={setFocusedStepIndex}
+            steps={result?.steps ?? []}
+          />
+        </div>
+      </section>
+
+      <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
+        <h2 className="text-2xl font-bold text-ink">Execution Trace</h2>
+        <p className="mt-2 text-slate-700">
+          Use the list below to inspect every transition and jump directly to a
+          specific trace step.
+        </p>
+        <div className="mt-6">
+          <ExecutionTrace
+            currentStepIndex={focusedStepIndex}
+            onSelectStep={setFocusedStepIndex}
+            steps={result?.steps}
+          />
         </div>
       </section>
     </div>

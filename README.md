@@ -105,3 +105,14 @@ Frontend structure:
 - `src/components/simulator/ExecutionTrace.jsx`
 
 The simulator form fetches available operations from the backend and submits runs to `POST /api/simulations`.
+
+## Phase 3 Playback
+
+The frontend now includes guided trace playback using backend-returned step data only.
+
+- `src/components/simulator/TracePlayer.jsx`
+- next/previous navigation
+- jump to first/last step
+- autoplay
+- playback speed selection
+- focused tape viewer with highlighted head positions
