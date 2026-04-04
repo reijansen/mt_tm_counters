@@ -148,7 +148,7 @@ export default function InfoTooltip({ content, label = "More information" }) {
       <FloatingPortal>
         {isMounted ? (
           <div
-            className="z-30 min-w-[120px] max-w-[90vw] break-words rounded-lg bg-gray-900 px-3 py-2 text-sm text-white shadow-lg"
+            className="z-[70] min-w-[120px] max-w-[min(90vw,20rem)] break-words rounded-lg bg-gray-900 px-3 py-2 text-sm leading-6 text-white shadow-lg"
             id={tooltipId}
             ref={refs.setFloating}
             role="tooltip"
