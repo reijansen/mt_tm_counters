@@ -1,42 +1,138 @@
 # MT TM Counters
 
-Phase 0 scaffolding for a web app version of the multitape Turing machine counter simulator.
+An interactive web application for exploring a multitape Turing machine with counter-machine operations.
 
-## Stack
+This project began as a final project for `CMSC 141 - Automata and Language Theory` under the `Bachelor of Science in Computer Science` program of the `Division of Physical Sciences and Mathematics`, `College of Arts and Sciences`, `University of the Philippines Visayas`.
 
-- Backend: FastAPI
-- Frontend: React
-- Tooling: Vite
-- Styling and animation: Tailwind CSS
+The current web version is designed as a learner-friendly educational tool. It helps users inspect how selected counter-machine operations can be represented and executed through a multitape Turing machine model using structured traces, tape snapshots, and guided playback.
+
+## Overview
+
+The simulator supports a fixed set of operations:
+
+- `INC`
+- `DEC`
+- `CZ`
+- `CMP`
+- `CLR`
+- `CPY`
+
+It is intentionally specialized. This is not a general-purpose Turing machine editor or arbitrary state-machine builder.
+
+## Features
+
+- Interactive simulator for supported counter-machine operations
+- Guided step-by-step playback of recorded execution traces
+- Tape viewer with head-position highlighting
+- Register-value snapshots at each step
+- Preset examples for demonstrations and self-study
+- Dedicated guide page for interpreting traces and tape output
+- Academic/project context page
+- Responsive frontend for desktop and mobile use
+
+## Tech Stack
+
+**Frontend**
+
+- React
+- Vite
+- Tailwind CSS
+
+**Backend**
+
+- FastAPI
+- Pydantic
+- Uvicorn
+
+**Deployment**
+
+- Vercel for the frontend
+- Render for the backend
 
 ## Project Structure
 
 ```text
-backend/
-  app/
-    main.py
-    schemas.py
-    services/
-frontend/
-  src/
-simulator.py
+.
+├─ backend/
+│  ├─ app/
+│  │  ├─ config.py
+│  │  ├─ main.py
+│  │  ├─ schemas.py
+│  │  └─ services/
+│  ├─ .env.example
+│  ├─ requirements.txt
+│  └─ runtime.txt
+├─ frontend/
+│  ├─ src/
+│  │  ├─ components/
+│  │  ├─ hooks/
+│  │  ├─ lib/
+│  │  └─ pages/
+│  ├─ .env.example
+│  └─ package.json
+├─ scripts/
+├─ simulator.py
+├─ package.json
+└─ README.md
 ```
 
-## Local Setup
+## Supported Operations
 
-### Backend
+### `INC`
+Increments a selected register by one.
+
+### `DEC`
+Decrements a selected register if it is nonzero.
+
+### `CZ`
+Checks whether a selected register is zero.
+
+### `CMP`
+Compares two registers for equality.
+
+### `CLR`
+Clears a selected register.
+
+### `CPY`
+Copies the contents of one register into another.
+
+## Scope and Limitations
+
+- Supports only the built-in operations listed above
+- Uses binary tape encoding to represent register values
+- Operates as a specialized educational simulator
+- Does not support arbitrary transition editing
+- Does not support free-form machine authoring
+- Does not support unrestricted tape alphabets beyond the simulator's defined model
+
+## Local Development
+
+### Prerequisites
+
+- Python `3.11` or `3.12`
+- Node.js `18+`
+- npm
+
+### 1. Clone the Repository
 
 ```powershell
-cd backend
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+git clone <your-repo-url>
+cd mt_tm_counters
 ```
 
-Backend runs at `http://127.0.0.1:8000`.
+### 2. Configure Environment Variables
 
-Backend local environment file:
+Create the local environment files below.
+
+**Frontend**  
+Create `frontend/.env.local`
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+**Backend**  
+Create `backend/.env`
 
 ```env
 FRONTEND_ORIGIN=http://localhost:5173
@@ -44,25 +140,51 @@ API_HOST=127.0.0.1
 API_PORT=8000
 ```
 
-### Frontend
+Environment example files are included:
+
+- [frontend/.env.example](./frontend/.env.example)
+- [backend/.env.example](./backend/.env.example)
+
+### 3. Install Dependencies
+
+**Backend**
+
+```powershell
+cd backend
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+cd ..
+```
+
+**Frontend**
 
 ```powershell
 cd frontend
 npm install
+cd ..
+```
+
+### 4. Run the Application
+
+#### Option A: Run Frontend and Backend Separately
+
+**Backend**
+
+```powershell
+cd backend
+.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+**Frontend**
+
+```powershell
+cd frontend
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`.
-
-Frontend local environment file:
-
-```env
-VITE_API_BASE_URL=http://127.0.0.1:8000
-```
-
-### Run Both Services Together
-
-From the repo root:
+#### Option B: Run Both from the Repository Root
 
 ```powershell
 npm install
@@ -70,31 +192,37 @@ npm run setup
 npm run dev
 ```
 
-This uses `concurrently` to run:
+## Environment Variables
 
-- FastAPI from `backend`
-- Vite from `frontend`
+### Frontend
 
-The backend runner prefers `backend\.venv\Scripts\python.exe` if it exists, and falls back to `python` otherwise.
-The setup command installs frontend dependencies and creates or updates the backend virtual environment with `requirements.txt`.
+| Variable | Required | Default | Purpose |
+|---|---:|---|---|
+| `VITE_API_BASE_URL` | Yes | `http://127.0.0.1:8000` | Base URL of the FastAPI backend |
 
-## Phase 0 Goal
+### Backend
 
-- Establish the backend/frontend split
-- Verify FastAPI can load `CounterMachineTM` from `simulator.py`
-- Provide a starter React UI that reads backend data
-- Prepare the repo for Phase 1 simulation endpoints
+| Variable | Required | Default | Purpose |
+|---|---:|---|---|
+| `FRONTEND_ORIGIN` | Yes | `http://localhost:5173` | Allowed frontend origin for CORS |
+| `API_HOST` | No | `127.0.0.1` | Backend host |
+| `API_PORT` | No | `8000` | Backend port |
 
-## Phase 1 Backend API
+## API Endpoints
 
-Available endpoints:
+### `GET /api/health`
+Checks whether the simulator service is available.
 
-- `GET /api/health`
-- `GET /api/operations`
-- `GET /api/project-info`
-- `POST /api/simulations`
+### `GET /api/operations`
+Returns the supported operation catalog.
 
-Example simulation request:
+### `GET /api/project-info`
+Returns academic and project metadata.
+
+### `POST /api/simulations`
+Runs a simulation and returns the final state plus an optional trace.
+
+Example request:
 
 ```json
 {
@@ -108,118 +236,101 @@ Example simulation request:
 }
 ```
 
-## Phase 2 Frontend
+Example response shape:
 
-Frontend structure:
+```json
+{
+  "operation": "INC",
+  "accepted": true,
+  "halted_state": "qf",
+  "step_count": 4,
+  "registers": [4, 0, 0, 0, 0],
+  "tapes": [],
+  "head_positions": [],
+  "steps": []
+}
+```
 
-- `src/pages/HomePage.jsx`
-- `src/pages/Simulator.jsx`
-- `src/components/simulator/SimulationForm.jsx`
-- `src/components/simulator/SimulationSummary.jsx`
-- `src/components/simulator/ExecutionTrace.jsx`
+## Validation and Error Handling
 
-The simulator form fetches available operations from the backend and submits runs to `POST /api/simulations`.
+The backend validates:
 
-## Phase 3 Playback
+- operation code
+- non-negative register values
+- register count range
+- operation-specific parameters
+- parameter indices relative to `num_registers`
 
-The frontend now includes guided trace playback using backend-returned step data only.
+The frontend converts backend and network errors into learner-friendly messages instead of exposing raw internal details.
 
-- `src/components/simulator/TracePlayer.jsx`
-- next/previous navigation
-- jump to first/last step
-- autoplay
-- playback speed selection
-- focused tape viewer with highlighted head positions
+## Deployment
 
-## Phase 4 UX Polish
+### Frontend on Vercel
 
-The simulator UI now includes:
+Set this environment variable in Vercel:
 
-- an operation explanation panel
-- a quick guide for tape, register, and playback concepts
-- clearer helper text around form inputs and playback controls
-- improved presentation-oriented labels and section hierarchy
+```env
+VITE_API_BASE_URL=https://your-render-service.onrender.com
+```
 
-## Phase 5 About Page
+### Backend on Render
 
-The frontend now includes:
+Recommended Render settings:
 
-- dedicated About page at `/about`
-- shared top navigation for simulator and about views
-- academic project summary, purpose, educational value, and scope-and-limitations sections
+- Root Directory: `backend`
+- Build Command:
 
-## Phase 6 Demo Features
+```bash
+pip install -r requirements.txt
+```
 
-The simulator now includes preset educational demos that can be loaded into the form in one click.
+- Start Command:
 
-- recommended demo cards for all supported operations
-- preset rejected and accepted scenarios
-- example explanations for presentation and teaching use
+```bash
+gunicorn -k uvicorn.workers.UvicornWorker app.main:app
+```
 
-## Frontend Structure
+Set these environment variables in Render:
 
-The frontend is now organized into focused pages so the simulator workspace stays less crowded.
+```env
+FRONTEND_ORIGIN=https://your-project.vercel.app
+API_HOST=0.0.0.0
+API_PORT=10000
+PYTHON_VERSION=3.12.8
+```
 
-- `/` Home landing page
-- `/simulator` execution workspace
-- `/examples` preset demo gallery
-- `/guide` reading guide for the simulator output
-- `/about` academic project page
+Python runtime is also pinned in [backend/runtime.txt](./backend/runtime.txt).
 
-## Production Security Notes
+## Security Notes
 
 ### CORS
 
-The backend uses `FRONTEND_ORIGIN` from `backend/app/config.py` for CORS and only allows:
+The backend uses `FRONTEND_ORIGIN` from configuration and restricts methods to:
 
 - `GET`
 - `POST`
 - `OPTIONS`
 
-Credentials are disabled because this project does not use cookies or authenticated browser sessions.
+Credentials are disabled because the project does not use cookie-based authentication.
 
 ### HTTPS
 
-No code changes are needed for HTTPS:
+No application code changes are required for HTTPS:
 
-- Vercel provides HTTPS automatically for the frontend
-- Render provides HTTPS automatically for the backend
+- Vercel provides HTTPS for the frontend
+- Render provides HTTPS for the backend
 
-Use the deployed `https://...` URLs in environment variables.
+Use the deployed `https://` URLs in production environment variables.
 
-### Environment Variables
+### Secrets and Local Configuration
 
-Required variables:
+- Local `.env` files are ignored by Git
+- `.env.example` files are committed for documentation only
+- Production values should be stored in Vercel and Render dashboards
 
-Frontend on Vercel:
-
-- `VITE_API_BASE_URL`
-
-Backend on Render:
-
-- `FRONTEND_ORIGIN`
-- `API_HOST`
-- `API_PORT`
-
-Suggested production values:
-
-```env
-# Vercel
-VITE_API_BASE_URL=https://your-render-service.onrender.com
-
-# Render
-FRONTEND_ORIGIN=https://your-project.vercel.app
-API_HOST=0.0.0.0
-API_PORT=10000
-```
-
-`.env` files are ignored locally. Keep real values in Vercel and Render dashboards for production.
-
-## Security Testing
+## Testing
 
 ### Test CORS
-
-Example preflight request:
 
 ```powershell
 curl -i -X OPTIONS http://127.0.0.1:8000/api/simulations `
@@ -227,14 +338,12 @@ curl -i -X OPTIONS http://127.0.0.1:8000/api/simulations `
   -H "Access-Control-Request-Method: POST"
 ```
 
-Verify:
+Check that:
 
-- `access-control-allow-origin` matches `FRONTEND_ORIGIN`
+- `access-control-allow-origin` matches the configured frontend origin
 - allowed methods include `GET`, `POST`, and `OPTIONS`
 
 ### Test Invalid Input Handling
-
-Example invalid request:
 
 ```powershell
 curl -i -X POST http://127.0.0.1:8000/api/simulations `
@@ -244,14 +353,74 @@ curl -i -X POST http://127.0.0.1:8000/api/simulations `
 
 Expected behavior:
 
-- `400` for operation-specific logical errors
-- `422` for schema validation errors
-- no stack traces or internal paths in the response body
+- `400` for operation-specific logical issues
+- `422` for schema validation issues
+- friendly frontend display of errors
 
-### Verify HTTPS In Production
+### Test Production Health
 
-After deployment:
+Open these in the browser after deployment:
 
-- open the Vercel frontend URL and confirm it uses `https://`
-- open the Render backend URL and confirm it uses `https://`
-- check browser security indicators or use `curl -I https://...`
+- `https://your-render-service.onrender.com/api/health`
+- `https://your-render-service.onrender.com/api/operations`
+- `https://your-render-service.onrender.com/api/project-info`
+
+## Troubleshooting
+
+### Render Build Uses Python 3.14
+
+If Render still builds with Python `3.14`, confirm:
+
+- [backend/runtime.txt](./backend/runtime.txt) exists
+- Render Root Directory is set to `backend`
+- `PYTHON_VERSION=3.12.8` is set in Render environment variables
+- the latest commit has been pushed and redeployed
+
+### Frontend Cannot Reach Backend
+
+Check:
+
+- `VITE_API_BASE_URL` in Vercel or `frontend/.env.local`
+- `FRONTEND_ORIGIN` in Render or `backend/.env`
+- deployed URLs do not contain trailing dots or malformed domains
+
+### CORS Errors in Production
+
+Most reported browser CORS failures in this project are actually caused by:
+
+- wrong backend URL
+- wrong frontend origin
+- backend route returning `404`
+
+Check the actual request URL first.
+
+## Git and Repository Hygiene
+
+Ignored local/development files include:
+
+- `.env`
+- `.env.local`
+- `frontend/.env.local`
+- `backend/.env`
+- virtual environments
+- Python caches
+- build output folders
+- editor metadata
+
+Committed files that should remain tracked:
+
+- `.env.example`
+- `package-lock.json`
+- source code
+- deployment configuration files
+
+## Author
+
+**Rei Jansen Buerom**  
+Final project origin: `CMSC 141 - Automata and Language Theory`  
+`Bachelor of Science in Computer Science`  
+`University of the Philippines Visayas`
+
+## License
+
+Add a license here if you want the repository to be publicly reusable under specific terms.
