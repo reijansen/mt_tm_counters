@@ -60,9 +60,11 @@ export default function DropdownSelect({
           ) : null}
         </div>
         <span
-          className={`shrink-0 text-xs text-zinc-400 transition ${isOpen ? "rotate-180" : ""}`}
+          className={`shrink-0 text-sm text-zinc-400 transition duration-200 ${
+            isOpen ? "rotate-90" : "rotate-0"
+          }`}
         >
-          v
+          &gt;
         </span>
       </button>
 

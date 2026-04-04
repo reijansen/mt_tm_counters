@@ -34,10 +34,10 @@ app.add_middleware(
 
 @app.get("/api/health", response_model=HealthResponse)
 def health_check() -> HealthResponse:
-    machine_name = get_machine_class_name()
+    get_machine_class_name()
     return HealthResponse(
         status="ok",
-        message=f"FastAPI is running and connected to {machine_name}.",
+        message="The simulator service is available.",
     )
 
 

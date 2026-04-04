@@ -242,7 +242,9 @@ class CounterMachineTM:
 
         while current_state not in accept_states and current_state not in reject_states:
             if self.step_count >= max_steps:
-                message = abort_message or f"Step limit reached ({max_steps} steps)."
+                message = abort_message or (
+                    f"The simulation stopped after reaching the safety limit of {max_steps} steps."
+                )
                 steps.append(
                     self._build_step_trace(
                         step_number=self.step_count,
@@ -282,7 +284,7 @@ class CounterMachineTM:
 
             transition = states[current_state].get_transition(read_symbols)
             if transition is None:
-                message = f"No transition defined for state {current_state} and symbols {list(read_symbols)}."
+                message = "The machine reached a configuration without a matching transition."
                 steps.append(
                     self._build_step_trace(
                         step_number=self.step_count,
@@ -329,7 +331,7 @@ class CounterMachineTM:
                     tape_indices=[tape_idx],
                     halted=True,
                     accepted=True,
-                    message="Registers synchronized from tape.",
+                    message="The register values were updated from the final tape contents.",
                 )
             )
         elif steps:
@@ -361,7 +363,9 @@ class CounterMachineTM:
 
         while current_state not in accept_states and current_state not in reject_states:
             if self.step_count >= max_steps:
-                message = abort_message or f"Step limit reached ({max_steps} steps)."
+                message = abort_message or (
+                    f"The simulation stopped after reaching the safety limit of {max_steps} steps."
+                )
                 steps.append(
                     self._build_step_trace(
                         step_number=self.step_count,
@@ -406,7 +410,7 @@ class CounterMachineTM:
 
             transition = states[current_state].get_transition(read_symbols)
             if transition is None:
-                message = f"No transition defined for state {current_state} and symbols {list(read_symbols)}."
+                message = "The machine reached a configuration without a matching transition."
                 steps.append(
                     self._build_step_trace(
                         step_number=self.step_count,
@@ -453,7 +457,7 @@ class CounterMachineTM:
                     tape_indices=tape_indices,
                     halted=True,
                     accepted=True,
-                    message="Registers synchronized from tape.",
+                    message="The register values were updated from the final tape contents.",
                 )
             )
         elif steps:
@@ -506,7 +510,7 @@ class CounterMachineTM:
             accept_states={"qf"},
             reject_states={"qreject"},
             before_run=lambda: (
-                (False, "qreject", "Register already zero - cannot decrement.")
+                (False, "qreject", "This register is already zero, so it cannot be decremented.")
                 if self.registers[tape_idx] == 0
                 else None
             ),
@@ -576,7 +580,7 @@ class CounterMachineTM:
             start_state="q0",
             accept_states={"qf"},
             stop_condition=lambda current_state, read_symbols, idx: (
-                ("qf", ("B",), ("S",), "Returned to the start of the tape.")
+                ("qf", ("B",), ("S",), "The head returned to the start of the cleared tape.")
                 if current_state == "q1" and self.head_cols[idx] == 0
                 else None
             ),
@@ -607,7 +611,7 @@ class CounterMachineTM:
             start_state="q0",
             accept_states={"qf"},
             special_case=lambda current_state, read_symbols, indices: (
-                ("qf", ("B", "B"), ("L", "L"), "Reached trailing blanks on both tapes.")
+                ("qf", ("B", "B"), ("L", "L"), "Both tapes reached blank cells at the end of the copied value.")
                 if read_symbols == ("B", "B")
                 and (self.head_cols[indices[0]] > 0 or self.head_cols[indices[1]] > 0)
                 else None
