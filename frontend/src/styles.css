@@ -30,6 +30,12 @@
 }
 
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   :root {
     color-scheme: dark;
   }
@@ -38,9 +44,11 @@
   body,
   #root {
     min-height: 100%;
+    overflow-x: clip;
   }
 
   body {
+    margin: 0;
     min-height: 100vh;
     background:
       radial-gradient(circle at top center, rgba(184, 255, 90, 0.09), transparent 30%),
@@ -59,11 +67,11 @@
 
 @layer components {
   .app-shell {
-    @apply mx-auto w-full max-w-[92rem] px-4 pb-16 pt-5 sm:px-6 lg:px-10;
+    @apply mx-auto w-full max-w-[92rem] overflow-x-hidden px-3 pb-14 pt-4 sm:px-6 sm:pb-16 sm:pt-5 lg:px-10;
   }
 
   .nav-shell {
-    @apply mx-auto mb-8 flex max-w-5xl flex-wrap items-center justify-between gap-4 rounded-full border border-white/8 bg-white/[0.03] px-5 py-4 shadow-[0_18px_56px_rgba(0,0,0,0.28)] backdrop-blur-xl;
+    @apply mx-auto mb-6 flex max-w-5xl flex-col gap-4 rounded-[1.8rem] border border-white/8 bg-white/[0.03] px-4 py-4 shadow-[0_18px_56px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:rounded-full;
   }
 
   .surface-panel {
@@ -83,7 +91,7 @@
   }
 
   .page-title {
-    @apply text-4xl font-black tracking-[-0.04em] text-zinc-50 sm:text-5xl lg:text-7xl;
+    @apply break-words text-3xl font-black tracking-[-0.04em] text-zinc-50 sm:text-5xl lg:text-7xl;
   }
 
   .page-copy {

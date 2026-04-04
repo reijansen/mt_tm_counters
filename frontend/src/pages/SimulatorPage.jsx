@@ -20,7 +20,7 @@ export default function SimulatorPage() {
 
   return (
     <div className="grid gap-8">
-      <header className="surface-panel px-7 py-8 sm:px-10 sm:py-10">
+      <header className="surface-panel overflow-hidden px-5 py-7 sm:px-10 sm:py-10">
         <p className="section-label">Simulator Workspace</p>
         <h1 className="page-title max-w-5xl">
           Run counter operations through a <span className="text-lime-300">multitape</span>{" "}
@@ -30,12 +30,14 @@ export default function SimulatorPage() {
           This page stays focused on execution: configure the machine input, run the
           simulation, and inspect the returned trace step by step.
         </p>
-        <div className="mt-8 flex flex-wrap gap-2">
-          {operations.map((operation) => (
-            <span className="app-chip" key={operation.code}>
-              {operation.code}
-            </span>
-          ))}
+        <div className="mt-8 overflow-x-auto">
+          <div className="flex min-w-max gap-2 pr-1">
+            {operations.map((operation) => (
+              <span className="app-chip" key={operation.code}>
+                {operation.code}
+              </span>
+            ))}
+          </div>
         </div>
       </header>
 

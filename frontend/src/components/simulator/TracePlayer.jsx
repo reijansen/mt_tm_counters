@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import DropdownSelect from "../ui/DropdownSelect";
 
 const SPEED_OPTIONS = [
   { label: "0.5x", value: 1600 },
@@ -91,7 +92,7 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
 
   return (
     <div className="grid gap-5">
-      <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+      <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="section-label">Guided Playback</p>
@@ -103,42 +104,43 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <button className="app-button-secondary" onClick={jumpToFirst} type="button">
+          <div className="grid w-full gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+            <button className="app-button-secondary w-full sm:w-auto" onClick={jumpToFirst} type="button">
               First
             </button>
-            <button className="app-button-secondary" onClick={goToPrevious} type="button">
+            <button className="app-button-secondary w-full sm:w-auto" onClick={goToPrevious} type="button">
               Previous
             </button>
-            <button className="app-button-primary" onClick={togglePlayback} type="button">
+            <button className="app-button-primary col-span-2 w-full sm:col-auto sm:w-auto" onClick={togglePlayback} type="button">
               {isPlaying ? "Pause Playback" : "Start Autoplay"}
             </button>
-            <button className="app-button-secondary" onClick={goToNext} type="button">
+            <button className="app-button-secondary w-full sm:w-auto" onClick={goToNext} type="button">
               Next
             </button>
-            <button className="app-button-secondary" onClick={jumpToLast} type="button">
+            <button className="app-button-secondary w-full sm:w-auto" onClick={jumpToLast} type="button">
               Last
             </button>
-            <label className="flex items-center gap-2 text-sm font-medium text-zinc-300">
+            </div>
+            <div className="grid gap-2 text-sm font-medium text-zinc-300 sm:min-w-[12rem]">
               <span>Playback speed</span>
-              <select
-                className="app-input rounded-full px-3 py-2"
-                value={speed}
-                onChange={(event) => setSpeed(Number(event.target.value))}
-              >
-                {SPEED_OPTIONS.map((option) => (
-                  <option className="bg-[#101218]" key={option.label} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+              <DropdownSelect
+                buttonClassName="rounded-full px-3 py-2"
+                menuAlign="right"
+                onChange={(selectedValue) => setSpeed(Number(selectedValue))}
+                options={SPEED_OPTIONS.map((option) => ({
+                  value: String(option.value),
+                  label: option.label,
+                }))}
+                value={String(speed)}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <section className="grid gap-4 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section className="grid gap-4 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
+        <div className="grid gap-3 lg:grid-cols-5">
           {stepMetrics.map((metric) => (
             <div className="surface-card-soft p-3" key={metric.label}>
               <p className="section-label">{metric.label}</p>
@@ -170,10 +172,10 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
                 }`}
                 key={`trace-player-register-${index}`}
               >
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
                   Register {index}
                 </div>
-                <div className="mt-2 text-lg font-semibold text-zinc-50">{value}</div>
+                <div className="mt-1.5 text-base font-semibold text-zinc-50 sm:text-lg">{value}</div>
               </div>
             ))}
           </div>

@@ -3,7 +3,7 @@ import { GUIDE_ITEMS } from "../lib/projectData";
 export default function GuidePage() {
   return (
     <div className="grid gap-8">
-      <header className="surface-panel px-7 py-8 sm:px-10 sm:py-10">
+      <header className="surface-panel px-5 py-7 sm:px-10 sm:py-10">
         <p className="section-label">Reading Guide</p>
         <h1 className="page-title max-w-5xl">
           How to read the <span className="text-lime-300">simulator output</span> with

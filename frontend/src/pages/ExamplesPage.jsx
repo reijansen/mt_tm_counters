@@ -33,7 +33,7 @@ const OPERATION_EXPLANATIONS = {
 export default function ExamplesPage() {
   return (
     <div className="grid gap-8">
-      <header className="surface-panel px-7 py-8 sm:px-10 sm:py-10">
+      <header className="surface-panel px-5 py-7 sm:px-10 sm:py-10">
         <p className="section-label">Demo Examples</p>
         <h1 className="page-title max-w-5xl">
           Curated presets for <span className="text-lime-300">teaching</span>, testing,
@@ -96,7 +96,7 @@ export default function ExamplesPage() {
 
                     <div className="pt-2">
                       <Link
-                        className="app-button-primary"
+                        className="app-button-primary w-full sm:w-auto"
                         state={{ presetExample: example.payload }}
                         to="/simulator"
                       >

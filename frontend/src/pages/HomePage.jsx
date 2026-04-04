@@ -9,7 +9,7 @@ export default function HomePage() {
 
   return (
     <div className="grid gap-8">
-      <header className="surface-panel overflow-hidden px-7 py-8 sm:px-10 sm:py-10">
+      <header className="surface-panel overflow-hidden px-5 py-7 sm:px-10 sm:py-10">
         <p className="section-label">
           Home
         </p>
@@ -45,21 +45,21 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
-            className="app-button-primary"
+            className="app-button-primary w-full sm:w-auto"
             to="/simulator"
           >
             Open Simulator
           </Link>
           <Link
-            className="app-button-secondary"
+            className="app-button-secondary w-full sm:w-auto"
             to="/examples"
           >
             Browse Examples
           </Link>
           <Link
-            className="app-button-secondary"
+            className="app-button-secondary w-full sm:w-auto"
             to="/about"
           >
             About The Project
@@ -117,7 +117,7 @@ export default function HomePage() {
             <h2 className="app-heading mt-3">Start with a strong example</h2>
           </div>
           <Link
-            className="app-button-secondary"
+            className="app-button-secondary w-full sm:w-auto"
             to="/examples"
           >
             View All Examples

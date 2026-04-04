@@ -136,7 +136,7 @@ export default function Simulator({ initialExample, operations }) {
       </section>
 
       <section className="surface-panel p-5 sm:p-6">
-        <details open={Boolean(result?.steps?.length)} className="group">
+        <details className="group">
           <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3">
             <div>
               <p className="section-label">Trace</p>

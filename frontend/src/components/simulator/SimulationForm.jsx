@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DropdownSelect from "../ui/DropdownSelect";
 
 const DEFAULT_REGISTER_COUNT = 5;
 
@@ -128,6 +129,12 @@ export default function SimulationForm({
   }
 
   const parameterConfig = getParameterConfig(operation);
+  const selectedOperationMeta =
+    operations.find((item) => item.code === operation) ??
+    operations[0] ?? {
+      code: operation,
+      label: "Operation",
+    };
   const helperText =
     operation === "CMP"
       ? "Choose the two registers you want to compare for equality."
@@ -144,23 +151,25 @@ export default function SimulationForm({
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2">
           <span className="section-label">Operation</span>
-          <select
-            className="app-input"
+          <DropdownSelect
+            helperText={selectedOperationMeta.label}
+            onChange={setOperation}
+            options={
+              operations.length > 0
+                ? operations.map((item) => ({
+                    value: item.code,
+                    label: item.code,
+                    description: item.label,
+                  }))
+                : [
+                    {
+                      value: "INC",
+                      label: "Loading...",
+                    },
+                  ]
+            }
             value={operation}
-            onChange={(event) => setOperation(event.target.value)}
-          >
-            {operations.length > 0 ? (
-              operations.map((item) => (
-                <option className="bg-[#101218]" key={item.code} value={item.code}>
-                  {item.code} - {item.label}
-                </option>
-              ))
-            ) : (
-              <option className="bg-[#101218]" value="INC">
-                Loading operations...
-              </option>
-            )}
-          </select>
+          />
         </label>
 
         <label className="grid gap-2">
