@@ -423,4 +423,4 @@ Final project origin: `CMSC 141 - Automata and Language Theory`
 
 ## License
 
-Add a license here if you want the repository to be publicly reusable under specific terms.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
