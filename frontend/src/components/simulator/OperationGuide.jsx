@@ -1,3 +1,5 @@
+import InfoTooltip from "../ui/InfoTooltip";
+
 const OPERATION_GUIDES = {
   INC: {
     title: "Increment Register",
@@ -50,7 +52,10 @@ export default function OperationGuide({ operationCode }) {
     <section className="grid gap-4 rounded-[1.6rem] border border-white/8 bg-black/25 p-5">
       <div>
         <p className="section-label">Selected Operation</p>
-        <h3 className="app-subheading mt-3">{guide.title}</h3>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <h3 className="app-subheading">{guide.title}</h3>
+          <InfoTooltip content={guide.explanation} />
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -64,11 +69,6 @@ export default function OperationGuide({ operationCode }) {
             {guide.tapeCount} tape{guide.tapeCount > 1 ? "s" : ""}
           </p>
         </div>
-      </div>
-
-      <div className="surface-card-soft">
-        <p className="section-label">How To Read It</p>
-        <p className="mt-3 text-sm leading-7 text-zinc-300">{guide.explanation}</p>
       </div>
     </section>
   );

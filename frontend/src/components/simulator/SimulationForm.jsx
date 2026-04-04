@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DropdownSelect from "../ui/DropdownSelect";
+import InfoTooltip from "../ui/InfoTooltip";
 
 const DEFAULT_REGISTER_COUNT = 5;
 
@@ -144,13 +145,12 @@ export default function SimulationForm({
 
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>
-      <div className="rounded-[1.35rem] border border-lime-300/12 bg-lime-300/8 px-4 py-3 text-sm text-lime-100">
-        {helperText}
-      </div>
-
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2">
-          <span className="section-label">Operation</span>
+          <span className="flex items-center gap-2">
+            <span className="section-label">Operation</span>
+            <InfoTooltip content="Select the counter-machine operation you want to inspect. The explanation below the dropdown updates with the selected operation." />
+          </span>
           <DropdownSelect
             helperText={selectedOperationMeta.label}
             onChange={setOperation}
@@ -173,7 +173,10 @@ export default function SimulationForm({
         </label>
 
         <label className="grid gap-2">
-          <span className="section-label">Number of registers</span>
+          <span className="flex items-center gap-2">
+            <span className="section-label">Number of registers</span>
+            <InfoTooltip content="Choose how many register tapes are available in the run. The simulator supports up to 20 registers in the web interface." />
+          </span>
           <input
             className="app-input"
             type="number"
@@ -188,7 +191,10 @@ export default function SimulationForm({
       <div className="grid gap-4 md:grid-cols-2">
         {parameterConfig.map((field) => (
           <label className="grid gap-2" key={field.key}>
-            <span className="section-label">{field.label}</span>
+            <span className="flex items-center gap-2">
+              <span className="section-label">{field.label}</span>
+              <InfoTooltip content={helperText} />
+            </span>
             <input
               className="app-input"
               type="number"
@@ -206,7 +212,10 @@ export default function SimulationForm({
       </div>
 
       <div className="grid gap-3">
-        <span className="section-label">Initial register values</span>
+        <span className="flex items-center gap-2">
+          <span className="section-label">Initial register values</span>
+          <InfoTooltip content="These values determine the starting contents of the register tapes before the machine begins its execution." />
+        </span>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {registerValues.map((value, index) => (
             <label className="grid gap-2" key={`register-${index}`}>
@@ -231,6 +240,7 @@ export default function SimulationForm({
           onChange={(event) => setIncludeSteps(event.target.checked)}
         />
         <span className="font-medium text-zinc-300">Include full execution trace</span>
+        <InfoTooltip content="Keep this enabled when you want playback controls and the full step-by-step trace after the run." />
       </label>
 
       <button

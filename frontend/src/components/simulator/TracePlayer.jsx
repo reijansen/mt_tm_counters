@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import DropdownSelect from "../ui/DropdownSelect";
+import InfoTooltip from "../ui/InfoTooltip";
 
 const SPEED_OPTIONS = [
   { label: "0.5x", value: 1600 },
@@ -96,9 +97,12 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="section-label">Guided Playback</p>
-            <h3 className="app-subheading mt-2">
-              Step {currentStep.step_number} of {steps[steps.length - 1].step_number}
-            </h3>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <h3 className="app-subheading">
+                Step {currentStep.step_number} of {steps[steps.length - 1].step_number}
+              </h3>
+              <InfoTooltip content="Use playback to move forward or backward through the recorded trace. The current step is synchronized with the tape viewer and register values below." />
+            </div>
             <p className="mt-2 text-sm text-zinc-400">
               Trace index {currentStepIndex + 1} of {steps.length}
             </p>
@@ -157,7 +161,10 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
 
         <div className="grid gap-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h4 className="app-subheading">Register Values At This Step</h4>
+            <div className="flex flex-wrap items-center gap-3">
+              <h4 className="app-subheading">Register Values At This Step</h4>
+              <InfoTooltip content="These values reflect the machine state at the currently selected step, not only the final result." />
+            </div>
             <span className="text-sm text-zinc-500">
               Active tapes are highlighted in lime.
             </span>
@@ -183,11 +190,9 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
 
         <div className="section-rule pt-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
+            <div className="flex flex-wrap items-center gap-3">
               <h4 className="app-subheading">Tape Viewer</h4>
-              <p className="mt-2 text-sm text-zinc-400">
-                The highlighted cell marks the current head position for each tape.
-              </p>
+              <InfoTooltip content="The highlighted cell marks the current head position. Tapes involved in the current transition are emphasized with the lime-accented surface." />
             </div>
             <span className="app-pill">Current heads highlighted</span>
           </div>
