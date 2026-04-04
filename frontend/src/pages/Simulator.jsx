@@ -154,8 +154,8 @@ export default function Simulator({ initialExample, operations }) {
                 <InfoTooltip content="Open this section when you want a complete step list or need to jump directly to a specific transition in the run." />
               </div>
             </div>
-            <span className="text-sm text-zinc-500 transition group-open:rotate-180">
-              ^
+            <span className="text-sm text-zinc-500 transition duration-200 group-open:rotate-90">
+              &gt;
             </span>
           </summary>
           <div className="mt-5">

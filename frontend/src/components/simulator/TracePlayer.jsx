@@ -93,7 +93,7 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
 
   return (
     <div className="grid min-w-0 gap-5">
-      <div className="min-w-0 overflow-hidden rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
+      <div className="min-w-0 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <p className="section-label">Guided Playback</p>
