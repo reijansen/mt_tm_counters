@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .mt-circle {
+        fill: rgba(255, 255, 255, 0.05);
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 1;
+      }
+      .mt-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        font-size: 32px;
+        font-weight: 900;
+        fill: #fafafa;
+        text-anchor: middle;
+        dominant-baseline: central;
+        letter-spacing: -0.02em;
+      }
+    </style>
+  </defs>
+  <circle cx="32" cy="32" r="31" class="mt-circle"/>
+  <text x="32" y="32" class="mt-text">MT</text>
+</svg>
