@@ -55,7 +55,7 @@ export default function SimulationSummary({ result }) {
               key={`final-register-${index}`}
             >
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                Register {index}
+                R{index}
               </div>
               <strong className="mt-2 block text-lg text-zinc-50">{value}</strong>
             </div>

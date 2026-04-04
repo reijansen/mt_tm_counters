@@ -180,7 +180,7 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
                 key={`trace-player-register-${index}`}
               >
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-                  Register {index}
+                  R{index}
                 </div>
                 <div className="mt-1.5 text-base font-semibold text-zinc-50 sm:text-lg">{value}</div>
               </div>

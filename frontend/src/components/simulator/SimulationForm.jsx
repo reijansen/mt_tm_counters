@@ -12,16 +12,16 @@ function getParameterConfig(operationCode) {
   switch (operationCode) {
     case "CMP":
       return [
-        { key: "left", label: "Left register" },
-        { key: "right", label: "Right register" },
+        { key: "left", label: "Left register", prefix: "R" },
+        { key: "right", label: "Right register", prefix: "R" },
       ];
     case "CPY":
       return [
-        { key: "destination", label: "Destination register" },
-        { key: "source", label: "Source register" },
+        { key: "destination", label: "Destination register", prefix: "R" },
+        { key: "source", label: "Source register", prefix: "R" },
       ];
     default:
-      return [{ key: "target", label: "Target register" }];
+      return [{ key: "target", label: "Target register", prefix: "R" }];
   }
 }
 
@@ -95,6 +95,13 @@ export default function SimulationForm({
       : Math.max(1, Math.min(20, parsedValue));
 
     setNumRegisters(nextCount);
+    setParameters((current) => ({
+      target: Math.min(Number(current.target) || 0, nextCount - 1),
+      left: Math.min(Number(current.left) || 0, nextCount - 1),
+      right: Math.min(Number(current.right) || 1, nextCount - 1),
+      destination: Math.min(Number(current.destination) || 0, nextCount - 1),
+      source: Math.min(Number(current.source) || 1, nextCount - 1),
+    }));
     setRegisterValues((current) => {
       const resized = buildEmptyRegisterValues(nextCount);
       for (let index = 0; index < Math.min(current.length, nextCount); index += 1) {
@@ -130,6 +137,11 @@ export default function SimulationForm({
   }
 
   const parameterConfig = getParameterConfig(operation);
+  const registerOptions = Array.from({ length: numRegisters }, (_, index) => ({
+    value: String(index),
+    label: `R${index}`,
+    description: `Register ${index}`,
+  }));
   const selectedOperationMeta =
     operations.find((item) => item.code === operation) ??
     operations[0] ?? {
@@ -195,17 +207,15 @@ export default function SimulationForm({
               <span className="section-label">{field.label}</span>
               <InfoTooltip content={helperText} />
             </span>
-            <input
-              className="app-input"
-              type="number"
-              min="0"
-              value={parameters[field.key]}
-              onChange={(event) =>
+            <DropdownSelect
+              onChange={(value) =>
                 setParameters((current) => ({
                   ...current,
-                  [field.key]: event.target.value,
+                  [field.key]: Number(value),
                 }))
               }
+              options={registerOptions}
+              value={String(Math.min(Number(parameters[field.key]) || 0, numRegisters - 1))}
             />
           </label>
         ))}
