@@ -25,9 +25,18 @@ export default function AppLayout({ children }) {
     setIsMobileNavOpen(false);
   }
 
+  function handleMobileNavToggle(event) {
+    setIsMobileNavOpen((current) => !current);
+    window.setTimeout(() => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+    }, 0);
+  }
+
   return (
     <div className="app-shell">
-      <div className="sticky top-2 z-50 pb-4 sm:top-3 sm:pb-5">
+      <div className="fixed top-0 left-0 right-0 z-50 isolate px-3 py-3 sm:px-6 sm:py-4 lg:px-10" style={{ width: "100%" }}>
         <nav className="nav-shell relative">
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3 sm:gap-4">
@@ -47,8 +56,9 @@ export default function AppLayout({ children }) {
             <button
               aria-expanded={isMobileNavOpen}
               aria-label="Toggle navigation"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/8 bg-black/20 text-zinc-100 transition hover:border-lime-300/35 hover:text-lime-200 sm:hidden"
-              onClick={() => setIsMobileNavOpen((current) => !current)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/8 bg-black/20 text-zinc-100 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/45 active:border-lime-300/35 active:text-lime-200 sm:hidden"
+              onClick={handleMobileNavToggle}
+              style={{ WebkitTapHighlightColor: "transparent" }}
               type="button"
             >
               <span className="text-lg">{isMobileNavOpen ? "x" : "="}</span>
@@ -87,7 +97,7 @@ export default function AppLayout({ children }) {
         </nav>
       </div>
 
-      <main>{children}</main>
+      <main className="w-full min-w-0 overflow-x-hidden pt-28 sm:pt-36">{children}</main>
 
       <footer className="section-rule mt-16 text-sm text-zinc-500">
         <p>&copy; 2026 Rei Jansen Buerom. All rights reserved.</p>

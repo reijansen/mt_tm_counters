@@ -92,10 +92,10 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
   }
 
   return (
-    <div className="grid gap-5">
-      <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
+    <div className="grid min-w-0 gap-5">
+      <div className="min-w-0 overflow-hidden rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
+          <div className="min-w-0">
             <p className="section-label">Guided Playback</p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <h3 className="app-subheading">
@@ -108,15 +108,15 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
             </p>
           </div>
 
-          <div className="grid w-full gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:gap-3">
-            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+          <div className="grid w-full min-w-0 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:gap-3">
+            <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:gap-3">
             <button className="app-button-secondary w-full sm:w-auto" onClick={jumpToFirst} type="button">
               First
             </button>
             <button className="app-button-secondary w-full sm:w-auto" onClick={goToPrevious} type="button">
               Previous
             </button>
-            <button className="app-button-primary col-span-2 w-full sm:col-auto sm:w-auto" onClick={togglePlayback} type="button">
+            <button className="app-button-primary w-full sm:w-auto" onClick={togglePlayback} type="button">
               {isPlaying ? "Pause Playback" : "Start Autoplay"}
             </button>
             <button className="app-button-secondary w-full sm:w-auto" onClick={goToNext} type="button">
@@ -126,7 +126,7 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
               Last
             </button>
             </div>
-            <div className="grid gap-2 text-sm font-medium text-zinc-300 sm:min-w-[12rem]">
+            <div className="grid min-w-0 gap-2 text-sm font-medium text-zinc-300 sm:min-w-[12rem]">
               <span>Playback speed</span>
               <DropdownSelect
                 buttonClassName="rounded-full px-3 py-2"
@@ -143,12 +143,12 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
         </div>
       </div>
 
-      <section className="grid gap-4 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3.5 sm:p-4">
-        <div className="grid gap-3 lg:grid-cols-5">
+      <section className="grid min-w-0 gap-4 overflow-hidden rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-3 sm:p-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-2 lg:grid-cols-5">
           {stepMetrics.map((metric) => (
-            <div className="surface-card-soft p-3" key={metric.label}>
+            <div className="surface-card-soft p-2.5 sm:p-3" key={metric.label}>
               <p className="section-label">{metric.label}</p>
-              <p className="mt-2 text-sm font-semibold text-zinc-50">{metric.value}</p>
+              <p className="mt-1.5 text-sm font-semibold text-zinc-50">{metric.value}</p>
             </div>
           ))}
         </div>
@@ -160,19 +160,19 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
         ) : null}
 
         <div className="grid gap-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="flex min-w-0 flex-wrap items-center gap-3">
               <h4 className="app-subheading">Register Values At This Step</h4>
               <InfoTooltip content="These values reflect the machine state at the currently selected step, not only the final result." />
             </div>
-            <span className="text-sm text-zinc-500">
+            <span className="text-xs text-zinc-500 sm:text-sm">
               Active tapes are highlighted in lime.
             </span>
           </div>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5">
             {currentStep.registers.map((value, index) => (
               <div
-                className={`rounded-2xl border px-3 py-3 text-sm transition ${
+                className={`rounded-xl border px-3 py-2.5 text-sm transition ${
                   currentStep.tape_indices.includes(index)
                     ? "border-lime-300/25 bg-lime-300/12 text-lime-100"
                     : "border-white/8 bg-black/25 text-zinc-300"
@@ -182,19 +182,19 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
                   R{index}
                 </div>
-                <div className="mt-1.5 text-base font-semibold text-zinc-50 sm:text-lg">{value}</div>
+                <div className="mt-1 text-base font-semibold text-zinc-50 sm:text-lg">{value}</div>
               </div>
             ))}
           </div>
         </div>
 
         <div className="section-rule pt-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="flex min-w-0 flex-wrap items-center gap-3">
               <h4 className="app-subheading">Tape Viewer</h4>
               <InfoTooltip content="The highlighted cell marks the current head position. Tapes involved in the current transition are emphasized with the lime-accented surface." />
             </div>
-            <span className="app-pill">Current heads highlighted</span>
+            <span className="app-pill hidden self-start sm:self-auto sm:inline-flex">Heads highlighted</span>
           </div>
 
           <div className="mt-4 grid gap-3">
@@ -204,16 +204,16 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
 
               return (
                 <div
-                  className={`rounded-[1.15rem] border p-3 transition ${
+                  className={`rounded-[1.05rem] border p-2.5 sm:p-3 transition ${
                     isActiveTape
                       ? "border-lime-300/20 bg-lime-300/8"
                       : "border-white/8 bg-black/25"
                   }`}
                   key={`trace-player-tape-${tapeIndex}`}
                 >
-                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                  <div className="mb-2.5 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2">
                     <div className="font-semibold text-zinc-100">Tape {tapeIndex}</div>
-                    <div className="text-sm text-zinc-500">Head position: {headPosition}</div>
+                    <div className="text-xs text-zinc-500 sm:text-sm">Head position: {headPosition}</div>
                   </div>
                   <div className="overflow-x-auto">
                     <div className="flex min-w-max gap-2">
@@ -221,7 +221,7 @@ export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepCh
                         const isHead = cellIndex === headPosition;
                         return (
                           <span
-                            className={`min-w-8 rounded-xl border px-2.5 py-2 text-center text-sm font-bold transition ${
+                            className={`min-w-7 rounded-lg border px-2 py-1.5 text-center text-xs font-bold transition sm:min-w-8 sm:rounded-xl sm:px-2.5 sm:py-2 sm:text-sm ${
                               isHead
                                 ? "border-lime-300/35 bg-lime-300 text-black"
                                 : isActiveTape

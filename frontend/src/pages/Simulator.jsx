@@ -18,6 +18,10 @@ export default function Simulator({ initialExample, operations }) {
   const resultRef = useRef(null);
 
   async function handleSimulationSubmit(payload) {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     setIsSubmitting(true);
     setError("");
     setHasFreshResult(false);
@@ -39,13 +43,16 @@ export default function Simulator({ initialExample, operations }) {
       return;
     }
 
-    const offsetTop = resultRef.current.getBoundingClientRect().top + window.scrollY - 128;
-    window.scrollTo({ top: Math.max(offsetTop, 0), behavior: "smooth" });
+    resultRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
   }, [hasFreshResult]);
 
   return (
     <div className="grid gap-5">
-      <section className="surface-panel p-5 sm:p-6">
+      <section className="surface-panel min-w-0 p-4 sm:p-6">
         <p className="section-label">Controls</p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <h2 className="app-heading">Simulator Controls</h2>
@@ -67,7 +74,7 @@ export default function Simulator({ initialExample, operations }) {
             <span className="text-zinc-500">Step count: {result.step_count}</span>
           </div>
         ) : null}
-        <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
           <SimulationForm
             initialValues={initialExample}
             operations={operations}
@@ -84,9 +91,9 @@ export default function Simulator({ initialExample, operations }) {
         ) : null}
       </section>
 
-      <section className="surface-panel p-5 sm:p-6" ref={resultRef}>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="max-w-2xl">
+      <section className="surface-panel min-w-0 scroll-mt-28 p-4 sm:scroll-mt-32 sm:p-6" ref={resultRef}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+          <div className="min-w-0 max-w-2xl">
             <p className="section-label">Results</p>
             <div className="mt-3 flex flex-wrap items-center gap-3">
               <h2 className="app-heading">Simulation Output</h2>
@@ -94,7 +101,7 @@ export default function Simulator({ initialExample, operations }) {
             </div>
           </div>
           {result ? (
-            <div className="rounded-[1.2rem] border border-lime-300/14 bg-lime-300/8 px-4 py-3 text-sm text-lime-100">
+            <div className="w-full rounded-[1.2rem] border border-lime-300/14 bg-lime-300/8 px-4 py-3 text-sm text-lime-100 sm:w-auto">
               <div className="font-semibold">Simulation ready</div>
               <div className="mt-1 text-lime-100/80">
                 {result.operation} {result.accepted ? "accepted" : "rejected"} after{" "}
@@ -109,7 +116,7 @@ export default function Simulator({ initialExample, operations }) {
         </div>
 
         <div className="section-rule mt-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div>
               <p className="section-label">Playback</p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -133,7 +140,7 @@ export default function Simulator({ initialExample, operations }) {
         </div>
       </section>
 
-      <section className="surface-panel p-5 sm:p-6">
+      <section className="surface-panel min-w-0 p-4 sm:p-6">
         <details className="group">
           <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3">
             <div>

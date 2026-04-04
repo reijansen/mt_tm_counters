@@ -156,7 +156,7 @@ export default function SimulationForm({
         : "Choose the target register for the selected operation.";
 
   return (
-    <form className="grid gap-5" onSubmit={handleSubmit}>
+    <form className="grid min-w-0 gap-5" onSubmit={handleSubmit}>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2">
           <span className="flex items-center gap-2">
@@ -228,7 +228,7 @@ export default function SimulationForm({
         </span>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {registerValues.map((value, index) => (
-            <label className="grid gap-2" key={`register-${index}`}>
+            <label className="grid min-w-0 gap-2" key={`register-${index}`}>
               <span className="text-sm font-semibold text-zinc-200">R{index}</span>
               <input
                 className="app-input"

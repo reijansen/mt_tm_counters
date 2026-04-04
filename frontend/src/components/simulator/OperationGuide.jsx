@@ -49,7 +49,7 @@ export default function OperationGuide({ operationCode }) {
   const guide = OPERATION_GUIDES[operationCode] ?? OPERATION_GUIDES.INC;
 
   return (
-    <section className="grid gap-4 rounded-[1.6rem] border border-white/8 bg-black/25 p-5">
+    <section className="grid min-w-0 gap-4 rounded-[1.6rem] border border-white/8 bg-black/25 p-4 sm:p-5">
       <div>
         <p className="section-label">Selected Operation</p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -58,7 +58,7 @@ export default function OperationGuide({ operationCode }) {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-3 sm:grid-cols-2">
         <div className="surface-card-soft">
           <p className="section-label">Purpose</p>
           <p className="mt-3 text-sm leading-7 text-zinc-300">{guide.purpose}</p>
