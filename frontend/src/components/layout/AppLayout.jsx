@@ -6,8 +6,8 @@ function NavItem({ to, children }) {
       className={({ isActive }) =>
         `rounded-full px-4 py-2 text-sm font-semibold transition duration-300 ${
           isActive
-            ? "bg-ink text-sand shadow-md"
-            : "bg-white/80 text-slate-700 hover:-translate-y-0.5 hover:bg-white hover:text-ink"
+            ? "bg-white/[0.06] text-zinc-50 shadow-[0_0_0_1px_rgba(255,255,255,0.06)]"
+            : "text-zinc-400 hover:-translate-y-0.5 hover:text-zinc-100"
         }`
       }
       to={to}
@@ -19,27 +19,38 @@ function NavItem({ to, children }) {
 
 export default function AppLayout({ children }) {
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <nav className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] border border-white/60 bg-white/70 px-5 py-4 shadow-[0_16px_40px_rgba(53,96,125,0.08)] backdrop-blur-xl">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-ocean">
-            MT TM Counters
-          </p>
-          <p className="text-sm text-slate-600">
-            Specialized educational simulator for fixed counter-machine operations
-          </p>
-        </div>
+    <div className="app-shell">
+      <div className="sticky top-3 z-50 pb-5">
+        <nav className="nav-shell">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-2xl font-black tracking-[-0.08em] text-zinc-50">
+              MT
+            </div>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-100">
+                MT TM Counters
+              </p>
+              <p className="text-xs text-zinc-500">
+                Specialized multitape simulator for fixed counter-machine operations
+              </p>
+            </div>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <NavItem to="/">Home</NavItem>
-          <NavItem to="/simulator">Simulator</NavItem>
-          <NavItem to="/examples">Examples</NavItem>
-          <NavItem to="/guide">Guide</NavItem>
-          <NavItem to="/about">About</NavItem>
-        </div>
-      </nav>
+          <div className="flex flex-wrap items-center gap-2 rounded-full border border-white/6 bg-black/20 p-1.5">
+            <NavItem to="/">Home</NavItem>
+            <NavItem to="/simulator">Simulator</NavItem>
+            <NavItem to="/examples">Examples</NavItem>
+            <NavItem to="/guide">Guide</NavItem>
+            <NavItem to="/about">About</NavItem>
+          </div>
+        </nav>
+      </div>
 
-      {children}
+      <main>{children}</main>
+
+      <footer className="section-rule mt-16 text-sm text-zinc-500">
+        <p>&copy; 2026 Rei Jansen Buerom. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

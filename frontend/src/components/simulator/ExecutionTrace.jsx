@@ -1,89 +1,79 @@
 export default function ExecutionTrace({ steps, currentStepIndex = -1, onSelectStep }) {
   if (!steps?.length) {
     return (
-      <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-5 text-slate-700">
+      <div className="app-empty">
         <p>No execution trace is available for this run.</p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-3">
       {steps.map((step, index) => (
         <article
-          className={`grid gap-4 rounded-3xl border p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+          className={`grid gap-4 rounded-[1.35rem] border p-4 transition duration-300 hover:-translate-y-0.5 ${
             currentStepIndex === step.step_number - 1
-              ? "border-ocean bg-sky-50 ring-2 ring-ocean/20"
-              : "border-slate-200 bg-slate-50"
+              ? "border-lime-300/30 bg-lime-300/10 shadow-[0_18px_48px_rgba(184,255,90,0.08)]"
+              : "border-white/8 bg-white/[0.03]"
           }`}
           key={`step-${index}-${step.step_number}-${step.state}`}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <strong>Step {step.step_number}</strong>
+            <strong className="text-zinc-50">Step {step.step_number}</strong>
             <div className="flex flex-wrap items-center gap-2">
               {typeof onSelectStep === "function" ? (
                 <button
-                  className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-700 transition hover:border-ocean hover:text-ocean"
+                  className="app-button-secondary px-3 py-1.5 text-xs uppercase tracking-[0.14em]"
                   onClick={() => onSelectStep(step.step_number - 1)}
                   type="button"
                 >
                   Focus
                 </button>
               ) : null}
-              <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-slate-700 shadow-sm">
-                {step.state}
-              </span>
+              <span className="app-pill">{step.state}</span>
             </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-                Read
-              </span>
-              <p className="mt-1 text-slate-800">
+            <div className="surface-card-soft p-3">
+              <span className="section-label">Read</span>
+              <p className="mt-2 text-zinc-100">
                 {step.read_symbols.length ? step.read_symbols.join(", ") : "None"}
               </p>
             </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-                Write
-              </span>
-              <p className="mt-1 text-slate-800">
+            <div className="surface-card-soft p-3">
+              <span className="section-label">Write</span>
+              <p className="mt-2 text-zinc-100">
                 {step.write_symbols.length ? step.write_symbols.join(", ") : "None"}
               </p>
             </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-                Directions
-              </span>
-              <p className="mt-1 text-slate-800">
+            <div className="surface-card-soft p-3">
+              <span className="section-label">Directions</span>
+              <p className="mt-2 text-zinc-100">
                 {step.directions.length ? step.directions.join(", ") : "None"}
               </p>
             </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-                Tapes used
-              </span>
-              <p className="mt-1 text-slate-800">
+            <div className="surface-card-soft p-3">
+              <span className="section-label">Tapes used</span>
+              <p className="mt-2 text-zinc-100">
                 {step.tape_indices.length ? step.tape_indices.join(", ") : "None"}
               </p>
             </div>
           </div>
 
           {step.message ? (
-            <p className="rounded-2xl bg-sky-50 px-4 py-3 text-sm font-medium text-sky-900">
+            <p className="rounded-[1.35rem] border border-lime-300/12 bg-lime-300/8 px-4 py-3 text-sm font-medium text-lime-100">
               {step.message}
             </p>
           ) : null}
 
           <div className="flex flex-wrap gap-2">
-            {step.registers.map((value, index) => (
+            {step.registers.map((value, registerIndex) => (
               <span
-                className="rounded-full bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm"
-                key={`step-${step.step_number}-register-${index}`}
+                className="rounded-full border border-white/8 bg-black/25 px-3 py-2 text-sm font-medium text-zinc-300"
+                key={`step-${step.step_number}-register-${registerIndex}`}
               >
-                R{index}: {value}
+                R{registerIndex}: <strong className="text-zinc-50">{value}</strong>
               </span>
             ))}
           </div>

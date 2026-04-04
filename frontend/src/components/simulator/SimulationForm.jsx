@@ -128,9 +128,6 @@ export default function SimulationForm({
   }
 
   const parameterConfig = getParameterConfig(operation);
-  const inputClassName =
-    "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition duration-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20";
-
   const helperText =
     operation === "CMP"
       ? "Choose the two registers you want to compare for equality."
@@ -140,38 +137,36 @@ export default function SimulationForm({
 
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>
-      <div className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+      <div className="rounded-[1.35rem] border border-lime-300/12 bg-lime-300/8 px-4 py-3 text-sm text-lime-100">
         {helperText}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Operation
-          </span>
+          <span className="section-label">Operation</span>
           <select
-            className={inputClassName}
+            className="app-input"
             value={operation}
             onChange={(event) => setOperation(event.target.value)}
           >
             {operations.length > 0 ? (
               operations.map((item) => (
-                <option key={item.code} value={item.code}>
+                <option className="bg-[#101218]" key={item.code} value={item.code}>
                   {item.code} - {item.label}
                 </option>
               ))
             ) : (
-              <option value="INC">Loading operations...</option>
+              <option className="bg-[#101218]" value="INC">
+                Loading operations...
+              </option>
             )}
           </select>
         </label>
 
         <label className="grid gap-2">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Number of registers
-          </span>
+          <span className="section-label">Number of registers</span>
           <input
-            className={inputClassName}
+            className="app-input"
             type="number"
             min="1"
             max="20"
@@ -184,11 +179,9 @@ export default function SimulationForm({
       <div className="grid gap-4 md:grid-cols-2">
         {parameterConfig.map((field) => (
           <label className="grid gap-2" key={field.key}>
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-              {field.label}
-            </span>
+            <span className="section-label">{field.label}</span>
             <input
-              className={inputClassName}
+              className="app-input"
               type="number"
               min="0"
               value={parameters[field.key]}
@@ -204,15 +197,13 @@ export default function SimulationForm({
       </div>
 
       <div className="grid gap-3">
-        <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-          Initial register values
-        </span>
+        <span className="section-label">Initial register values</span>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {registerValues.map((value, index) => (
             <label className="grid gap-2" key={`register-${index}`}>
-              <span className="text-sm font-semibold text-slate-700">R{index}</span>
+              <span className="text-sm font-semibold text-zinc-200">R{index}</span>
               <input
-                className={inputClassName}
+                className="app-input"
                 type="number"
                 min="0"
                 value={value}
@@ -223,18 +214,18 @@ export default function SimulationForm({
         </div>
       </div>
 
-      <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+      <label className="flex items-center gap-3 rounded-[1.35rem] border border-white/8 bg-black/25 px-4 py-3">
         <input
-          className="h-4 w-4 rounded border-slate-300 text-ocean focus:ring-ocean"
+          className="h-4 w-4 rounded border-white/15 bg-transparent text-lime-300 focus:ring-lime-300"
           type="checkbox"
           checked={includeSteps}
           onChange={(event) => setIncludeSteps(event.target.checked)}
         />
-        <span className="font-medium text-slate-700">Include full execution trace</span>
+        <span className="font-medium text-zinc-300">Include full execution trace</span>
       </label>
 
       <button
-        className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-bold tracking-wide text-sand transition duration-300 hover:-translate-y-0.5 hover:bg-ocean disabled:cursor-progress disabled:opacity-70 sm:w-fit"
+        className="app-button-primary w-full sm:w-fit"
         type="submit"
         disabled={isSubmitting || operations.length === 0}
       >

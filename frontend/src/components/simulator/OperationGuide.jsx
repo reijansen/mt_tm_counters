@@ -47,38 +47,29 @@ export default function OperationGuide({ operationCode }) {
   const guide = OPERATION_GUIDES[operationCode] ?? OPERATION_GUIDES.INC;
 
   return (
-    <section className="grid gap-4 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+    <section className="grid gap-4 rounded-[1.6rem] border border-white/8 bg-black/25 p-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-          Selected Operation
-        </p>
-        <h3 className="mt-1 text-xl font-bold text-ink">{guide.title}</h3>
+        <p className="section-label">Selected Operation</p>
+        <h3 className="app-subheading mt-3">{guide.title}</h3>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Purpose
-          </p>
-          <p className="mt-2 text-sm leading-6 text-slate-700">{guide.purpose}</p>
+        <div className="surface-card-soft">
+          <p className="section-label">Purpose</p>
+          <p className="mt-3 text-sm leading-7 text-zinc-300">{guide.purpose}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Tapes Used
-          </p>
-          <p className="mt-2 text-sm leading-6 text-slate-700">
+        <div className="surface-card-soft">
+          <p className="section-label">Tapes Used</p>
+          <p className="mt-3 text-sm leading-7 text-zinc-300">
             {guide.tapeCount} tape{guide.tapeCount > 1 ? "s" : ""}
           </p>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-4">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-          How To Read It
-        </p>
-        <p className="mt-2 text-sm leading-6 text-slate-700">{guide.explanation}</p>
+      <div className="surface-card-soft">
+        <p className="section-label">How To Read It</p>
+        <p className="mt-3 text-sm leading-7 text-zinc-300">{guide.explanation}</p>
       </div>
     </section>
   );
 }
-

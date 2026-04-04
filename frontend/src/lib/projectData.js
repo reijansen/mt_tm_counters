@@ -38,6 +38,6 @@ export const GUIDE_ITEMS = [
   {
     title: "Trace Playback",
     description:
-      "Playback reuses the full trace returned by the backend. It does not request step-by-step execution from the server.",
+      "Playback follows the recorded computation trace so you can revisit each step without rerunning the operation manually.",
   },
 ];

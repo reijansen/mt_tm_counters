@@ -23,11 +23,7 @@ function buildStepMetrics(step) {
   ];
 }
 
-export default function TracePlayer({
-  steps = [],
-  currentStepIndex = 0,
-  onStepChange,
-}) {
+export default function TracePlayer({ steps = [], currentStepIndex = 0, onStepChange }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(SPEED_OPTIONS[1].value);
 
@@ -60,7 +56,7 @@ export default function TracePlayer({
 
   if (!steps.length) {
     return (
-      <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-5 text-slate-700">
+      <div className="app-empty">
         <p>Run a simulation with trace data enabled to use guided playback.</p>
       </div>
     );
@@ -94,167 +90,151 @@ export default function TracePlayer({
   }
 
   return (
-    <div className="grid gap-6">
-      <div className="flex flex-col gap-4 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Guided Playback
-          </p>
-          <h3 className="mt-1 text-xl font-bold text-ink">
-            Step {currentStep.step_number} of {steps[steps.length - 1].step_number}
-          </h3>
-          <p className="mt-1 text-sm text-slate-700">
-            Trace index {currentStepIndex + 1} of {steps.length}
-          </p>
-        </div>
+    <div className="grid gap-5">
+      <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="section-label">Guided Playback</p>
+            <h3 className="app-subheading mt-2">
+              Step {currentStep.step_number} of {steps[steps.length - 1].step_number}
+            </h3>
+            <p className="mt-2 text-sm text-zinc-400">
+              Trace index {currentStepIndex + 1} of {steps.length}
+            </p>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-ocean hover:text-ocean"
-            onClick={jumpToFirst}
-            type="button"
-          >
-            First
-          </button>
-          <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-ocean hover:text-ocean"
-            onClick={goToPrevious}
-            type="button"
-          >
-            Previous
-          </button>
-          <button
-            className="rounded-full bg-ink px-5 py-2 text-sm font-bold text-sand transition hover:bg-ocean"
-            onClick={togglePlayback}
-            type="button"
-          >
-            {isPlaying ? "Pause Playback" : "Start Autoplay"}
-          </button>
-          <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-ocean hover:text-ocean"
-            onClick={goToNext}
-            type="button"
-          >
-            Next
-          </button>
-          <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-ocean hover:text-ocean"
-            onClick={jumpToLast}
-            type="button"
-          >
-            Last
-          </button>
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
-            <span>Playback speed</span>
-            <select
-              className="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-ocean"
-              value={speed}
-              onChange={(event) => setSpeed(Number(event.target.value))}
-            >
-              {SPEED_OPTIONS.map((option) => (
-                <option key={option.label} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="flex flex-wrap items-center gap-3">
+            <button className="app-button-secondary" onClick={jumpToFirst} type="button">
+              First
+            </button>
+            <button className="app-button-secondary" onClick={goToPrevious} type="button">
+              Previous
+            </button>
+            <button className="app-button-primary" onClick={togglePlayback} type="button">
+              {isPlaying ? "Pause Playback" : "Start Autoplay"}
+            </button>
+            <button className="app-button-secondary" onClick={goToNext} type="button">
+              Next
+            </button>
+            <button className="app-button-secondary" onClick={jumpToLast} type="button">
+              Last
+            </button>
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-300">
+              <span>Playback speed</span>
+              <select
+                className="app-input rounded-full px-3 py-2"
+                value={speed}
+                onChange={(event) => setSpeed(Number(event.target.value))}
+              >
+                {SPEED_OPTIONS.map((option) => (
+                  <option className="bg-[#101218]" key={option.label} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <section className="grid gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {stepMetrics.map((metric) => (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4" key={metric.label}>
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-                  {metric.label}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-ink">{metric.value}</p>
+      <section className="grid gap-4 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          {stepMetrics.map((metric) => (
+            <div className="surface-card-soft p-3" key={metric.label}>
+              <p className="section-label">{metric.label}</p>
+              <p className="mt-2 text-sm font-semibold text-zinc-50">{metric.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {currentStep.message ? (
+          <p className="rounded-[1.2rem] border border-lime-300/12 bg-lime-300/8 px-4 py-3 text-sm font-medium text-lime-100">
+            {currentStep.message}
+          </p>
+        ) : null}
+
+        <div className="grid gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h4 className="app-subheading">Register Values At This Step</h4>
+            <span className="text-sm text-zinc-500">
+              Active tapes are highlighted in lime.
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5">
+            {currentStep.registers.map((value, index) => (
+              <div
+                className={`rounded-2xl border px-3 py-3 text-sm transition ${
+                  currentStep.tape_indices.includes(index)
+                    ? "border-lime-300/25 bg-lime-300/12 text-lime-100"
+                    : "border-white/8 bg-black/25 text-zinc-300"
+                }`}
+                key={`trace-player-register-${index}`}
+              >
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                  Register {index}
+                </div>
+                <div className="mt-2 text-lg font-semibold text-zinc-50">{value}</div>
               </div>
             ))}
           </div>
+        </div>
 
-          {currentStep.message ? (
-            <p className="rounded-2xl bg-sky-50 px-4 py-3 text-sm font-medium text-sky-900">
-              {currentStep.message}
-            </p>
-          ) : null}
-
-          <div className="grid gap-3">
-            <h4 className="text-lg font-bold text-ink">Register Values At This Step</h4>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-              {currentStep.registers.map((value, index) => (
-                <div
-                  className={`flex items-center justify-between rounded-full px-4 py-3 text-sm shadow-sm transition ${
-                    currentStep.tape_indices.includes(index)
-                      ? "bg-ocean text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                  key={`trace-player-register-${index}`}
-                >
-                  <span className="font-semibold">R{index}</span>
-                  <strong>{value}</strong>
-                </div>
-              ))}
+        <div className="section-rule pt-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h4 className="app-subheading">Tape Viewer</h4>
+              <p className="mt-2 text-sm text-zinc-400">
+                The highlighted cell marks the current head position for each tape.
+              </p>
             </div>
+            <span className="app-pill">Current heads highlighted</span>
           </div>
-        </section>
 
-        <section className="grid gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-3">
-            <h4 className="text-lg font-bold text-ink">Tape Viewer</h4>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
-              Active heads highlighted
-            </span>
-          </div>
-          <p className="text-sm leading-6 text-slate-700">
-            The dark highlighted cell marks the current head position. Tapes involved in
-            the current transition are emphasized with a lighter blue background.
-          </p>
-
-          <div className="grid gap-4">
+          <div className="mt-4 grid gap-3">
             {currentStep.tapes.map((tape, tapeIndex) => {
               const isActiveTape = currentStep.tape_indices.includes(tapeIndex);
               const headPosition = currentStep.head_positions[tapeIndex];
 
               return (
                 <div
-                  className={`rounded-3xl border p-4 transition ${
+                  className={`rounded-[1.15rem] border p-3 transition ${
                     isActiveTape
-                      ? "border-ocean bg-sky-50 shadow-md"
-                      : "border-slate-200 bg-slate-50"
+                      ? "border-lime-300/20 bg-lime-300/8"
+                      : "border-white/8 bg-black/25"
                   }`}
                   key={`trace-player-tape-${tapeIndex}`}
                 >
-                  <div className="mb-3 flex items-center justify-between gap-3">
-                    <div className="font-semibold text-slate-700">Tape {tapeIndex}</div>
-                    <div className="text-sm text-slate-600">Head position: {headPosition}</div>
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                    <div className="font-semibold text-zinc-100">Tape {tapeIndex}</div>
+                    <div className="text-sm text-zinc-500">Head position: {headPosition}</div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {tape.map((symbol, cellIndex) => {
-                      const isHead = cellIndex === headPosition;
-                      return (
-                        <span
-                          className={`min-w-10 rounded-xl px-3 py-2 text-center text-sm font-bold shadow-sm transition ${
-                            isHead
-                              ? "animate-pulse bg-ink text-sand ring-2 ring-ocean/50"
-                              : isActiveTape
-                                ? "bg-white text-ink"
-                                : "bg-slate-100 text-ink"
-                          }`}
-                          key={`trace-player-tape-${tapeIndex}-${cellIndex}`}
-                        >
-                          {symbol}
-                        </span>
-                      );
-                    })}
+                  <div className="overflow-x-auto">
+                    <div className="flex min-w-max gap-2">
+                      {tape.map((symbol, cellIndex) => {
+                        const isHead = cellIndex === headPosition;
+                        return (
+                          <span
+                            className={`min-w-8 rounded-xl border px-2.5 py-2 text-center text-sm font-bold transition ${
+                              isHead
+                                ? "border-lime-300/35 bg-lime-300 text-black"
+                                : isActiveTape
+                                  ? "border-white/8 bg-white/[0.06] text-zinc-100"
+                                  : "border-white/8 bg-white/[0.04] text-zinc-100"
+                            }`}
+                            key={`trace-player-tape-${tapeIndex}-${cellIndex}`}
+                          >
+                            {symbol}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

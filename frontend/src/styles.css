@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #102033;
-  --color-ocean: #35607d;
-  --color-sand: #f7f3e8;
-  --color-copper: #7f4f24;
+  --color-ink: #f4f7fb;
+  --color-ocean: #b8ff5a;
+  --color-sand: #090a0f;
+  --color-copper: #8f97a8;
   --animate-float-soft: float-soft 5s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2.2s ease-in-out infinite;
 
   @keyframes float-soft {
     0%, 100% {
@@ -16,20 +17,116 @@
       transform: translateY(-6px);
     }
   }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 rgba(184, 255, 90, 0);
+    }
+
+    50% {
+      box-shadow: 0 0 26px rgba(184, 255, 90, 0.22);
+    }
+  }
 }
 
-html,
-body,
-#root {
-  min-height: 100%;
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top center, rgba(184, 255, 90, 0.09), transparent 30%),
+      radial-gradient(circle at left top, rgba(112, 141, 255, 0.08), transparent 26%),
+      linear-gradient(180deg, #08090c 0%, #0b0d12 48%, #08090c 100%);
+    color: #f4f7fb;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(184, 255, 90, 0.28);
+    color: #f4f7fb;
+  }
 }
 
-body {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, #d7f0ff 0, transparent 35%),
-    linear-gradient(135deg, #f7f3e8 0%, #eef6ff 100%);
-  color: #102033;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  .app-shell {
+    @apply mx-auto w-full max-w-[92rem] px-4 pb-16 pt-5 sm:px-6 lg:px-10;
+  }
+
+  .nav-shell {
+    @apply mx-auto mb-8 flex max-w-5xl flex-wrap items-center justify-between gap-4 rounded-full border border-white/8 bg-white/[0.03] px-5 py-4 shadow-[0_18px_56px_rgba(0,0,0,0.28)] backdrop-blur-xl;
+  }
+
+  .surface-panel {
+    @apply rounded-[2rem] border border-white/8 bg-white/[0.04] p-6 shadow-[0_16px_48px_rgba(0,0,0,0.22)] backdrop-blur-xl;
+  }
+
+  .surface-card {
+    @apply rounded-[1.6rem] border border-white/8 bg-white/[0.03] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.16)] backdrop-blur-md;
+  }
+
+  .surface-card-soft {
+    @apply rounded-[1.35rem] border border-white/8 bg-black/25 p-4;
+  }
+
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-lime-300;
+  }
+
+  .page-title {
+    @apply text-4xl font-black tracking-[-0.04em] text-zinc-50 sm:text-5xl lg:text-7xl;
+  }
+
+  .page-copy {
+    @apply text-base leading-8 text-zinc-400 sm:text-lg;
+  }
+
+  .app-button-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-lime-300 px-5 py-3 text-sm font-bold text-black transition duration-300 hover:-translate-y-0.5 hover:bg-lime-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090a0f];
+  }
+
+  .app-button-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-semibold text-zinc-100 transition duration-300 hover:-translate-y-0.5 hover:border-lime-300/35 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090a0f];
+  }
+
+  .app-chip {
+    @apply rounded-full border border-lime-300/15 bg-lime-300/10 px-4 py-2 text-sm font-semibold tracking-wide text-lime-200;
+  }
+
+  .app-pill {
+    @apply rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-zinc-300;
+  }
+
+  .app-input {
+    @apply w-full rounded-[1.2rem] border border-white/10 bg-black/30 px-4 py-3 text-zinc-100 outline-none transition duration-200 placeholder:text-zinc-600 focus:border-lime-300/45 focus:ring-2 focus:ring-lime-300/15;
+  }
+
+  .app-empty {
+    @apply rounded-[1.6rem] border border-dashed border-white/12 bg-white/[0.02] p-5 text-zinc-400;
+  }
+
+  .app-muted {
+    @apply text-zinc-400;
+  }
+
+  .app-heading {
+    @apply text-2xl font-bold tracking-[-0.03em] text-zinc-50;
+  }
+
+  .app-subheading {
+    @apply text-lg font-semibold tracking-[-0.02em] text-zinc-100;
+  }
+
+  .section-rule {
+    @apply border-t border-white/8 pt-8;
+  }
 }

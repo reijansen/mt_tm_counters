@@ -2,101 +2,110 @@ function formatOutcome(accepted) {
   return accepted ? "Accepted" : "Rejected";
 }
 
+function SummaryCard({ label, value, tone = "default" }) {
+  const valueClassName =
+    tone === "success"
+      ? "text-lime-300"
+      : tone === "danger"
+        ? "text-red-300"
+        : "text-zinc-50";
+
+  return (
+    <div className="surface-card-soft p-3.5">
+      <span className="section-label">{label}</span>
+      <div className={`mt-2 text-base font-bold tracking-[-0.02em] ${valueClassName}`}>{value}</div>
+    </div>
+  );
+}
+
 export default function SimulationSummary({ result }) {
   if (!result) {
     return (
-      <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-5 text-slate-700">
+      <div className="app-empty">
         <p>Run a simulation to see the machine result, tapes, and final register values.</p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-5">
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Operation
-          </span>
-          <div className="mt-1 font-bold text-ink">{result.operation}</div>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Outcome
-          </span>
-          <div className={`mt-1 font-bold ${result.accepted ? "text-green-700" : "text-red-700"}`}>
-            {formatOutcome(result.accepted)}
-          </div>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Halted state
-          </span>
-          <div className="mt-1 font-bold text-ink">{result.halted_state}</div>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">
-            Step count
-          </span>
-          <div className="mt-1 font-bold text-ink">{result.step_count}</div>
-        </div>
+        <SummaryCard label="Operation" value={result.operation} />
+        <SummaryCard
+          label="Outcome"
+          value={formatOutcome(result.accepted)}
+          tone={result.accepted ? "success" : "danger"}
+        />
+        <SummaryCard label="Halted state" value={result.halted_state} />
+        <SummaryCard label="Step count" value={result.step_count} />
       </div>
 
       {result.message ? (
-        <p className="rounded-2xl bg-sky-50 px-4 py-3 text-sm font-medium text-sky-900">
+        <p className="rounded-[1.35rem] border border-lime-300/12 bg-lime-300/8 px-4 py-3 text-sm font-medium text-lime-100">
           {result.message}
         </p>
       ) : null}
 
       <div className="grid gap-3">
-        <h3 className="text-lg font-bold text-ink">Final Registers</h3>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <h3 className="app-subheading">Final Registers</h3>
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5">
           {result.registers.map((value, index) => (
             <div
-              className="flex items-center justify-between rounded-full bg-slate-100 px-4 py-3 text-sm shadow-sm"
+              className="rounded-2xl border border-white/8 bg-black/25 px-3 py-3 text-sm text-zinc-200"
               key={`final-register-${index}`}
             >
-              <span className="font-semibold text-slate-700">R{index}</span>
-              <strong>{value}</strong>
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                Register {index}
+              </div>
+              <strong className="mt-2 block text-lg text-zinc-50">{value}</strong>
             </div>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3">
-        <h3 className="text-lg font-bold text-ink">Head Positions</h3>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <h3 className="app-subheading">Head Positions</h3>
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5">
           {result.head_positions.map((value, index) => (
             <div
-              className="flex items-center justify-between rounded-full bg-slate-100 px-4 py-3 text-sm shadow-sm"
+              className="rounded-2xl border border-white/8 bg-black/25 px-3 py-3 text-sm text-zinc-200"
               key={`head-position-${index}`}
             >
-              <span className="font-semibold text-slate-700">Tape {index}</span>
-              <strong>{value}</strong>
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                Tape {index}
+              </div>
+              <strong className="mt-2 block text-lg text-zinc-50">{value}</strong>
             </div>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3">
-        <h3 className="text-lg font-bold text-ink">Tape Snapshots</h3>
+        <h3 className="app-subheading">Tape Snapshots</h3>
         <div className="grid gap-4">
           {result.tapes.map((tape, index) => (
-            <div className="grid gap-2" key={`final-tape-${index}`}>
-              <div className="font-semibold text-slate-700">Tape {index}</div>
-              <div className="flex flex-wrap gap-2">
-                {tape.map((symbol, cellIndex) => (
-                  <span
-                    className={`min-w-9 rounded-xl px-3 py-2 text-center text-sm font-bold shadow-sm transition duration-300 ${
-                      cellIndex === result.head_positions[index]
-                        ? "bg-ink text-sand animate-pulse"
-                        : "bg-slate-100 text-ink"
-                    }`}
-                    key={`final-tape-${index}-cell-${cellIndex}`}
-                  >
-                    {symbol}
-                  </span>
-                ))}
+            <div className="surface-card-soft grid gap-3 p-3.5" key={`final-tape-${index}`}>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="font-semibold text-zinc-100">Tape {index}</div>
+                <div className="text-sm text-zinc-500">
+                  Head position: {result.head_positions[index]}
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <div className="flex min-w-max gap-2">
+                  {tape.map((symbol, cellIndex) => (
+                    <span
+                      className={`min-w-8 rounded-xl border px-2.5 py-2 text-center text-sm font-bold transition duration-300 ${
+                        cellIndex === result.head_positions[index]
+                          ? "border-lime-300/30 bg-lime-300 text-black"
+                          : "border-white/8 bg-white/[0.04] text-zinc-100"
+                      }`}
+                      key={`final-tape-${index}-cell-${cellIndex}`}
+                    >
+                      {symbol}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           ))}

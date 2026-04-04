@@ -1,84 +1,106 @@
 import { ACADEMIC_ITEMS, LIMITATION_ITEMS } from "../lib/projectData";
 
-function InfoCard({ title, children }) {
+function SectionBlock({ title, children }) {
   return (
-    <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_72px_rgba(53,96,125,0.14)]">
-      <h2 className="text-2xl font-bold text-ink">{title}</h2>
-      <div className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">{children}</div>
+    <section className="section-rule first:border-t-0 first:pt-0">
+      <h2 className="app-heading">{title}</h2>
+      <div className="mt-4 max-w-3xl text-sm leading-7 text-zinc-400 sm:text-base">
+        {children}
+      </div>
     </section>
   );
 }
 
 export default function AboutPage() {
   return (
-    <div className="grid gap-6">
-      <header className="rounded-[2rem] border border-white/60 bg-white/70 p-8 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-ocean">
-          Academic Project Profile
+    <div className="grid gap-10">
+      <header className="grid gap-8 xl:grid-cols-[1.15fr_0.85fr] xl:items-start">
+        <div>
+          <p className="section-label">Academic Project Profile</p>
+          <h1 className="page-title mt-4 max-w-5xl">
+            About this <span className="text-lime-300">specialized simulator</span>
+          </h1>
+        <p className="page-copy mt-6 max-w-3xl">
+          This simulator began as an academic project and is now presented as a
+          learning resource for exploring how counter-machine operations can be
+          represented and observed through a multitape Turing machine model.
         </p>
-        <h1 className="max-w-4xl text-4xl font-black tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          About This Simulator
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-slate-700 sm:text-lg">
-          This web application presents a specialized educational simulator for a
-          multitape Turing machine with counter-machine style operations, designed to
-          support academic explanation, demonstration, and guided exploration.
-        </p>
+        </div>
+
+        <aside className="surface-card">
+          <p className="section-label">At A Glance</p>
+          <div className="mt-4 grid gap-3 text-sm leading-7 text-zinc-300 sm:text-base">
+            <p>
+              <strong className="text-zinc-50">Developer:</strong> Rei Jansen Buerom
+            </p>
+            <p>
+              <strong className="text-zinc-50">Course:</strong> CMSC 141 - Automata and
+              Language Theory
+            </p>
+            <p>
+              <strong className="text-zinc-50">Program:</strong> Bachelor of Science in
+              Computer Science
+            </p>
+            <p>
+              <strong className="text-zinc-50">Institution:</strong> University of the
+              Philippines Visayas
+            </p>
+          </div>
+        </aside>
       </header>
 
-      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <InfoCard title="Project Overview">
+      <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_20rem] xl:items-start">
+        <div className="grid gap-10">
+        <SectionBlock title="Project Overview">
           <p>
-            The simulator visualizes how selected counter-machine operations can be
-            interpreted through a multitape Turing machine model. It focuses on a
-            fixed set of supported operations and presents their execution through
-            structured traces, register views, tape snapshots, and guided playback.
+            The simulator focuses on a fixed set of counter-machine operations and
+            shows how each one can be interpreted through a multitape Turing machine.
+            Instead of presenting the idea only in theory, it lets learners inspect
+            the process through structured traces, register views, tape snapshots, and
+            guided playback.
           </p>
-        </InfoCard>
+        </SectionBlock>
 
-        <InfoCard title="Academic Context">
-          <div className="grid gap-3">
+        <SectionBlock title="Purpose">
+          <p>
+            The project was created to make core ideas in automata and formal
+            computation easier to understand. By connecting familiar register
+            operations to a multitape Turing machine interpretation, it turns an
+            abstract topic into something learners can examine step by step.
+          </p>
+        </SectionBlock>
+
+        <SectionBlock title="Educational Value">
+          <p>
+            The simulator is intended to support classroom explanation, self-study,
+            and guided review. It helps learners follow transitions, head movement,
+            tape contents, and final outcomes in a format that is easier to read than
+            static traces alone.
+          </p>
+        </SectionBlock>
+
+          <SectionBlock title="Scope And Limitations">
+            <ul className="grid gap-2 pl-5">
+              {LIMITATION_ITEMS.map((item) => (
+                <li className="list-disc text-zinc-300 marker:text-lime-300" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </SectionBlock>
+        </div>
+
+        <aside className="section-rule xl:border-t-0 xl:pt-0">
+          <h2 className="app-heading">Academic Context</h2>
+          <div className="mt-4 grid gap-2 text-sm leading-7 text-zinc-400 sm:text-base">
             {ACADEMIC_ITEMS.map((item) => (
               <p key={item.label}>
-                <strong className="text-ink">{item.label}:</strong> {item.value}
+                <strong className="text-zinc-50">{item.label}:</strong> {item.value}
               </p>
             ))}
           </div>
-        </InfoCard>
+        </aside>
       </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <InfoCard title="Purpose">
-          <p>
-            The project was created to provide a visual and interactive way to study
-            core ideas in automata and formal computation. By connecting register
-            operations to a multitape Turing machine interpretation, the simulator
-            makes abstract computational processes easier to inspect step by step.
-          </p>
-        </InfoCard>
-
-        <InfoCard title="Educational Value">
-          <p>
-            The simulator is intended to support classroom explanation, individual
-            practice, and presentation use. It helps learners observe transitions,
-            head movement, tape content, and machine outcomes in a format that is more
-            accessible than static traces alone.
-          </p>
-        </InfoCard>
-      </div>
-
-      <InfoCard title="Scope And Limitations">
-        <ul className="grid gap-3">
-          {LIMITATION_ITEMS.map((item) => (
-            <li
-              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
-              key={item}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </InfoCard>
     </div>
   );
 }

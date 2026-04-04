@@ -4,38 +4,62 @@ import { PRESET_EXAMPLES } from "../components/simulator/presetExamples";
 import useBootstrapData from "../hooks/useBootstrapData";
 
 export default function HomePage() {
-  const { health, operations, projectInfo, pageError } = useBootstrapData();
+  const { operations, projectInfo } = useBootstrapData();
   const featuredExamples = PRESET_EXAMPLES.slice(0, 3);
 
   return (
-    <div className="grid gap-6">
-      <header className="rounded-[2rem] border border-white/60 bg-white/70 p-8 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-ocean">
+    <div className="grid gap-8">
+      <header className="surface-panel overflow-hidden px-7 py-8 sm:px-10 sm:py-10">
+        <p className="section-label">
           Home
         </p>
-        <h1 className="max-w-4xl text-4xl font-black tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          Multitape Turing Machine Counter Simulator
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-slate-700 sm:text-lg">
-          A specialized educational web app for exploring fixed counter-machine
-          operations through a multitape Turing machine model, with browser-based
-          simulation, guided playback, and presentation-ready examples.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 grid gap-8 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
+          <div>
+            <h1 className="page-title max-w-5xl">
+              Explore <span className="text-lime-300">Counter-Machine</span> Operations.
+            </h1>
+            <p className="page-copy mt-6 max-w-3xl">
+              This web app presents a multitape Turing machine with counter-machine
+              operations, allowing learners to study the model through structured
+              traces, guided playback, and carefully chosen examples.
+            </p>
+          </div>
+
+          <div className="grid gap-5">
+            <div>
+              <p className="section-label">Supported Operations</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {operations.map((operation) => (
+                  <span className="app-chip" key={operation.code}>
+                    {operation.code}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="section-rule">
+              <p className="text-sm leading-7 text-zinc-400">
+                Use the simulator to see how each operation changes register values,
+                tape contents, head positions, and final outcomes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-sand transition duration-300 hover:-translate-y-0.5 hover:bg-ocean"
+            className="app-button-primary"
             to="/simulator"
           >
             Open Simulator
           </Link>
           <Link
-            className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-slate-50"
+            className="app-button-secondary"
             to="/examples"
           >
             Browse Examples
           </Link>
           <Link
-            className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-slate-50"
+            className="app-button-secondary"
             to="/about"
           >
             About The Project
@@ -43,98 +67,80 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <article className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-ocean">
-            Project Snapshot
+      <section className="grid gap-10 xl:grid-cols-[1.05fr_0.95fr]">
+        <article>
+          <p className="section-label">What You Can Explore</p>
+          <h2 className="app-heading mt-3">A focused view of six core operations</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base">
+            This resource is centered on understanding how increment, decrement,
+            zero-checking, comparison, clearing, and copying behave when represented
+            on tapes. It is meant to support conceptual understanding rather than
+            unrestricted machine construction.
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-ink">Focused, Academic, and Demo-Ready</h2>
-          <p className="mt-4 text-sm leading-7 text-slate-700 sm:text-base">
-            The app supports six fixed operations only: INC, DEC, CZ, CMP, CLR, and
-            CPY. It is designed to visualize execution traces and tape behavior
-            clearly, not to act as a general-purpose Turing machine editor.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            {operations.map((operation) => (
-              <span
-                className="rounded-full bg-ink px-4 py-2 text-sm font-semibold tracking-wide text-sand"
-                key={operation.code}
-              >
-                {operation.code}
-              </span>
-            ))}
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-zinc-300">
+            <span>Structured traces</span>
+            <span>Step playback</span>
+            <span>Preset demonstrations</span>
           </div>
-          <p className="mt-5 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
-            <strong className="text-ink">Backend status:</strong> {health}
-          </p>
-          {pageError ? (
-            <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
-              {pageError}
-            </p>
-          ) : null}
         </article>
 
-        <article className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-ocean">
+        <article className="section-rule xl:border-l xl:border-t-0 xl:pl-8 xl:pt-0">
+          <p className="section-label">
             Academic Context
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-ink">
+          <h2 className="app-heading mt-3">
             {projectInfo?.course ?? "CMSC 141 - Automata and Language Theory"}
           </h2>
-          <div className="mt-4 grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+          <div className="mt-5 grid gap-2 text-sm leading-7 text-zinc-400 sm:text-base">
             <p>
-              <strong className="text-ink">Developer:</strong>{" "}
+              <strong className="text-zinc-50">Developer:</strong>{" "}
               {projectInfo?.developer ?? "Rei Jansen Buerom"}
             </p>
             <p>
-              <strong className="text-ink">Program:</strong>{" "}
+              <strong className="text-zinc-50">Program:</strong>{" "}
               {projectInfo?.program ?? "Bachelor of Science in Computer Science"}
             </p>
             <p>
-              <strong className="text-ink">Division:</strong>{" "}
-              {projectInfo?.division ?? "Division of Physical Sciences and Mathematics"}
-            </p>
-            <p>
-              <strong className="text-ink">College:</strong>{" "}
-              {projectInfo?.college ?? "College of Arts and Sciences"}
-            </p>
-            <p>
-              <strong className="text-ink">University:</strong>{" "}
+              <strong className="text-zinc-50">University:</strong>{" "}
               {projectInfo?.university ?? "University of the Philippines Visayas"}
             </p>
           </div>
         </article>
       </section>
 
-      <section className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(53,96,125,0.08)] backdrop-blur-xl">
+      <section className="section-rule">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ocean">
+            <p className="section-label">
               Featured Demos
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-ink">Start With a Strong Example</h2>
+            <h2 className="app-heading mt-3">Start with a strong example</h2>
           </div>
           <Link
-            className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-slate-50"
+            className="app-button-secondary"
             to="/examples"
           >
             View All Examples
           </Link>
         </div>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 lg:grid-cols-3">
           {featuredExamples.map((example) => (
             <article
-              className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-md"
+              className="border-b border-white/8 pb-6 last:border-b-0 lg:border-b-0 lg:pb-0"
               key={example.id}
             >
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-ocean">
+              <p className="section-label">
                 {example.operation}
               </p>
-              <h3 className="mt-2 text-lg font-bold text-ink">{example.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-700">{example.description}</p>
+              <h3 className="mt-3 text-xl font-bold tracking-[-0.02em] text-zinc-50">
+                {example.title}
+              </h3>
+              <p className="mt-3 text-sm leading-7 text-zinc-400">
+                {example.learningGoal}
+              </p>
               <Link
-                className="mt-4 inline-flex items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-sand transition duration-300 hover:-translate-y-0.5 hover:bg-ocean"
+                className="app-button-primary mt-5"
                 state={{ presetExample: example.payload }}
                 to="/simulator"
               >
