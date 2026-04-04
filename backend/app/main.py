@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +15,7 @@ from app.schemas import (
 from app.services.simulation_service import execute_simulation
 from app.services.simulator_adapter import get_machine_class_name, get_operation_catalog
 
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="MT TM Counters API",
@@ -23,8 +26,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[FRONTEND_ORIGIN],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -62,3 +65,9 @@ def run_simulation_endpoint(request: SimulationRequest) -> SimulationResponse:
         return SimulationResponse(**execute_simulation(request))
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.exception("Unexpected simulation failure", exc_info=exc)
+        raise HTTPException(
+            status_code=500,
+            detail="An unexpected error occurred while processing the simulation.",
+        ) from exc

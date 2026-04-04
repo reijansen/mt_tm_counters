@@ -36,6 +36,14 @@ uvicorn app.main:app --reload
 
 Backend runs at `http://127.0.0.1:8000`.
 
+Backend local environment file:
+
+```env
+FRONTEND_ORIGIN=http://localhost:5173
+API_HOST=127.0.0.1
+API_PORT=8000
+```
+
 ### Frontend
 
 ```powershell
@@ -45,6 +53,12 @@ npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`.
+
+Frontend local environment file:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
 
 ### Run Both Services Together
 
@@ -151,3 +165,93 @@ The frontend is now organized into focused pages so the simulator workspace stay
 - `/examples` preset demo gallery
 - `/guide` reading guide for the simulator output
 - `/about` academic project page
+
+## Production Security Notes
+
+### CORS
+
+The backend uses `FRONTEND_ORIGIN` from `backend/app/config.py` for CORS and only allows:
+
+- `GET`
+- `POST`
+- `OPTIONS`
+
+Credentials are disabled because this project does not use cookies or authenticated browser sessions.
+
+### HTTPS
+
+No code changes are needed for HTTPS:
+
+- Vercel provides HTTPS automatically for the frontend
+- Render provides HTTPS automatically for the backend
+
+Use the deployed `https://...` URLs in environment variables.
+
+### Environment Variables
+
+Required variables:
+
+Frontend on Vercel:
+
+- `VITE_API_BASE_URL`
+
+Backend on Render:
+
+- `FRONTEND_ORIGIN`
+- `API_HOST`
+- `API_PORT`
+
+Suggested production values:
+
+```env
+# Vercel
+VITE_API_BASE_URL=https://your-render-service.onrender.com
+
+# Render
+FRONTEND_ORIGIN=https://your-project.vercel.app
+API_HOST=0.0.0.0
+API_PORT=10000
+```
+
+`.env` files are ignored locally. Keep real values in Vercel and Render dashboards for production.
+
+## Security Testing
+
+### Test CORS
+
+Example preflight request:
+
+```powershell
+curl -i -X OPTIONS http://127.0.0.1:8000/api/simulations `
+  -H "Origin: http://localhost:5173" `
+  -H "Access-Control-Request-Method: POST"
+```
+
+Verify:
+
+- `access-control-allow-origin` matches `FRONTEND_ORIGIN`
+- allowed methods include `GET`, `POST`, and `OPTIONS`
+
+### Test Invalid Input Handling
+
+Example invalid request:
+
+```powershell
+curl -i -X POST http://127.0.0.1:8000/api/simulations `
+  -H "Content-Type: application/json" `
+  -d "{\"operation\":\"CMP\",\"register_values\":[1],\"parameters\":{\"left\":0},\"num_registers\":1,\"include_steps\":true}"
+```
+
+Expected behavior:
+
+- `400` for operation-specific logical errors
+- `422` for schema validation errors
+- no stack traces or internal paths in the response body
+
+### Verify HTTPS In Production
+
+After deployment:
+
+- open the Vercel frontend URL and confirm it uses `https://`
+- open the Render backend URL and confirm it uses `https://`
+- check browser security indicators or use `curl -I https://...`
