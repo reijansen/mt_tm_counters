@@ -74,15 +74,19 @@ export default function Simulator({ initialExample, operations }) {
             <span className="text-zinc-500">Step count: {result.step_count}</span>
           </div>
         ) : null}
-        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          <SimulationForm
-            initialValues={initialExample}
-            operations={operations}
-            isSubmitting={isSubmitting}
-            onSubmit={handleSimulationSubmit}
-            onOperationChange={setSelectedOperation}
-          />
-          <OperationGuide operationCode={selectedOperation} />
+        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_20rem] xl:items-start">
+          <div className="min-w-0 xl:max-w-[54rem]">
+            <SimulationForm
+              initialValues={initialExample}
+              operations={operations}
+              isSubmitting={isSubmitting}
+              onSubmit={handleSimulationSubmit}
+              onOperationChange={setSelectedOperation}
+            />
+          </div>
+          <div className="min-w-0 xl:justify-self-end xl:w-full xl:max-w-[20rem]">
+            <OperationGuide operationCode={selectedOperation} />
+          </div>
         </div>
         {error ? (
           <p className="mt-4 rounded-[1.3rem] border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-200">

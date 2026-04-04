@@ -164,7 +164,6 @@ export default function SimulationForm({
             <InfoTooltip content="Select the counter-machine operation you want to inspect. The explanation below the dropdown updates with the selected operation." />
           </span>
           <DropdownSelect
-            helperText={selectedOperationMeta.label}
             onChange={setOperation}
             options={
               operations.length > 0
@@ -182,6 +181,7 @@ export default function SimulationForm({
             }
             value={operation}
           />
+          <p className="text-sm text-zinc-400">{selectedOperationMeta.label}</p>
         </label>
 
         <label className="grid gap-2">
@@ -197,6 +197,9 @@ export default function SimulationForm({
             value={numRegisters}
             onChange={(event) => handleNumRegistersChange(event.target.value)}
           />
+          <p className="text-sm text-zinc-400">
+            Set how many register tapes are available for this run.
+          </p>
         </label>
       </div>
 
