@@ -7,7 +7,7 @@ ShortText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1
 MediumText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=255)]
 SymbolText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=8)]
 RegisterValue = Annotated[int, Field(ge=0)]
-RegisterIndex = Annotated[int, Field(ge=0, le=19)]
+RegisterIndex = Annotated[int, Field(ge=0)]
 
 
 class HealthResponse(BaseModel):
@@ -19,11 +19,11 @@ class OperationDefinitionResponse(BaseModel):
     code: OperationCode = Field(min_length=2, max_length=3)
     label: MediumText
     tape_count: int = Field(ge=1, le=2)
-    parameter_names: list[ShortText] = Field(default_factory=list, max_length=2)
+    parameter_names: list[ShortText] = Field(default_factory=list)
 
 
 class OperationCatalogResponse(BaseModel):
-    operations: list[OperationDefinitionResponse] = Field(default_factory=list, max_length=6)
+    operations: list[OperationDefinitionResponse] = Field(default_factory=list)
 
 
 class ProjectInfoResponse(BaseModel):
@@ -46,7 +46,7 @@ class SimulationParametersRequest(BaseModel):
 
 class SimulationRequest(BaseModel):
     operation: OperationCode = Field(min_length=2, max_length=3)
-    register_values: list[RegisterValue] = Field(min_length=1, max_length=20)
+    register_values: list[RegisterValue] = Field(min_length=1)
     parameters: SimulationParametersRequest
     num_registers: int = Field(default=5, ge=1, le=20)
     include_steps: bool = True
@@ -70,15 +70,15 @@ class SimulationRequest(BaseModel):
 
 
 class StepTraceResponse(BaseModel):
-    step_number: int = Field(ge=1)
+    step_number: int = Field(ge=0)
     state: ShortText
-    read_symbols: list[SymbolText] = Field(default_factory=list, max_length=2)
-    write_symbols: list[SymbolText] = Field(default_factory=list, max_length=2)
-    directions: list[SymbolText] = Field(default_factory=list, max_length=2)
-    tape_indices: list[RegisterIndex] = Field(default_factory=list, max_length=2)
-    head_positions: list[int] = Field(default_factory=list, max_length=20)
-    registers: list[RegisterValue] = Field(default_factory=list, max_length=20)
-    tapes: list[list[SymbolText]] = Field(default_factory=list, max_length=20)
+    read_symbols: list[SymbolText] = Field(default_factory=list)
+    write_symbols: list[SymbolText] = Field(default_factory=list)
+    directions: list[SymbolText] = Field(default_factory=list)
+    tape_indices: list[RegisterIndex] = Field(default_factory=list)
+    head_positions: list[int] = Field(default_factory=list)
+    registers: list[RegisterValue] = Field(default_factory=list)
+    tapes: list[list[SymbolText]] = Field(default_factory=list)
     halted: bool = False
     accepted: bool | None = None
     message: MediumText | None = None
@@ -89,8 +89,8 @@ class SimulationResponse(BaseModel):
     accepted: bool
     halted_state: ShortText
     step_count: int = Field(ge=0)
-    registers: list[RegisterValue] = Field(default_factory=list, max_length=20)
-    tapes: list[list[SymbolText]] = Field(default_factory=list, max_length=20)
-    head_positions: list[int] = Field(default_factory=list, max_length=20)
+    registers: list[RegisterValue] = Field(default_factory=list)
+    tapes: list[list[SymbolText]] = Field(default_factory=list)
+    head_positions: list[int] = Field(default_factory=list)
     steps: list[StepTraceResponse] = Field(default_factory=list)
     message: MediumText | None = None
